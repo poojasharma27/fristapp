@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin24"
+    android:layout_marginEnd="@dimen/margin24"
+    android:layout_marginTop="@dimen/margin8"
+    android:layout_marginBottom="@dimen/margin8"
+    android:background="@drawable/all_file_drawable">
+
+    <ImageView
+        android:id="@+id/ivDesign"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/margin32"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_marginBottom="@dimen/margin16"
+        android:background="@drawable/all_file_image_drawable"
+        android:src="@drawable/ic_baseline_favorite_24" />
+
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin16"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_toEndOf="@id/ivDesign"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="@string/app_desisgn"
+        android:textColor="@color/darkBlue"
+        android:textSize="@dimen/textsize16" />
+    <TextView
+        android:id="@+id/tvSketch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin8"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_toEndOf="@id/tvAppName"
+        android:fontFamily="@font/montserrat_light"
+        android:text="@string/sketch"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/textsize12" />
+    <TextView
+        android:id="@+id/tvMb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin16"
+        android:layout_marginTop="@dimen/margin5"
+        android:layout_toEndOf="@id/ivDesign"
+        android:layout_below="@id/tvAppName"
+        android:fontFamily="@font/montserrat_light"
+        android:text="@string/_2_3_mb"
+        android:textColor="@color/darkgray"
+        android:textSize="@dimen/textsize12" />
+    <ImageView
+        android:id="@+id/ivMore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin8"
+        android:layout_marginTop="@dimen/textsize24"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_baseline_more_vert_24"/>
+
+
+</RelativeLayout>

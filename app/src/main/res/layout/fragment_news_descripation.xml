@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1e1d24"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<include
+
+    layout="@layout/layout_toolbar"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cVImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="@dimen/margin24"
+        android:layout_marginEnd="@dimen/margin24"
+        android:layout_marginTop="@dimen/margin48"
+        app:cardCornerRadius="@dimen/margin16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivNews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_girlres_background" />
+
+        <TextView
+            android:id="@+id/tvInvestment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin8"
+            android:layout_marginBottom="@dimen/margin8"
+            android:text="@string/investment"
+            android:fontFamily="@font/montserrat_semibold"
+            android:layout_gravity="bottom"/>
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin24"
+        android:text="@string/investment"
+        android:layout_marginTop="@dimen/margin24"
+        android:fontFamily="@font/montserrat_semibold"
+       app:layout_constraintTop_toBottomOf="@id/cVImage"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize20"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/tvBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin24"
+        android:text="@string/investment"
+        android:layout_marginTop="@dimen/margin16"
+        android:fontFamily="@font/montserrat_light"
+       app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize8"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <View
+        android:id="@+id/tvView"
+        android:layout_width="2dp"
+        android:layout_height="15dp"
+        android:background="#ffffff"
+        android:layout_marginTop="@dimen/margin16"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toEndOf="@id/tvBy"
+        android:layout_marginStart="@dimen/margin16"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin24"
+        android:text="@string/investment"
+        android:layout_marginTop="@dimen/margin16"
+        android:fontFamily="@font/montserrat_light"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize8"
+        app:layout_constraintStart_toEndOf="@id/tvView"/>
+
+
+    <TextView
+        android:id="@+id/tvDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/descripation"
+        app:layout_constraintTop_toBottomOf="@id/tvBy"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_marginStart="@dimen/margin24"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="@dimen/textsize16"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

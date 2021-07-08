@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_500"
+    android:fillViewport="true">
+
+
+    <!--  <View
+          android:layout_width="2dp"
+          android:layout_height="5dp"
+          app:layout_constraintTop_toTopOf="parent"
+          android:background="@color/darkBlue"
+          app:layout_constraintStart_toStartOf="parent"/>-->
+    <include layout="@layout/layout_toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin80"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvuser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin32"
+            android:layout_marginTop="@dimen/margin16"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="@string/shared_with"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize16" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin16"
+            android:background="@null"
+            android:fontFamily="@font/montserrat_semibold"
+            android:hint="@string/search"
+            android:textColorHint="@color/darkBlue" />
+
+        <ImageView
+            android:id="@+id/ivMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tvuser"
+            android:layout_marginEnd="@dimen/margin16"
+            android:background="@drawable/ic_baseline_mic_24"
+            app:layout_constraintStart_toEndOf="@id/ivMic"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin16"
+        android:background="#385499"
+        app:layout_constraintTop_toBottomOf="@id/rlMain">
+
+        <TextView
+            android:id="@+id/tvAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin40"
+            android:layout_marginTop="@dimen/margin24"
+            android:background="@drawable/tv_all_drawable"
+            android:fontFamily="@font/montserrat_semibold"
+            android:padding="@dimen/margin16"
+            android:text="@string/all"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize16" />
+
+        <TextView
+            android:id="@+id/tvFolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin32"
+            android:layout_marginTop="@dimen/margin24"
+            android:layout_toRightOf="@id/tvAll"
+            android:background="@drawable/tv_folder_drawable"
+            android:drawableStart="@drawable/ic_baseline_folder_24"
+            android:fontFamily="@font/montserrat_semibold"
+            android:padding="@dimen/margin16"
+            android:text="@string/folder"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize16" />
+
+        <TextView
+            android:id="@+id/tvPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin32"
+            android:layout_marginTop="@dimen/margin24"
+            android:layout_toRightOf="@id/tvFolder"
+            android:background="@drawable/tv_folder_drawable"
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:fontFamily="@font/montserrat_semibold"
+            android:padding="@dimen/margin16"
+            android:paddingLeft="@dimen/margin16"
+            android:paddingTop="@dimen/margin16"
+            android:paddingRight="@dimen/margin16"
+            android:paddingBottom="@dimen/margin16"
+            android:text="@string/people"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize16" />
+
+        <TextView
+            android:id="@+id/tvSharedWith"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvFolder"
+            android:layout_marginLeft="@dimen/margin32"
+            android:layout_marginTop="@dimen/margin16"
+            android:fontFamily="@font/montserrat_semibold"
+            android:padding="@dimen/margin16"
+            android:paddingLeft="@dimen/margin16"
+            android:paddingTop="@dimen/margin16"
+            android:paddingRight="@dimen/margin16"
+            android:paddingBottom="@dimen/margin16"
+            android:text="@string/shared_with"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize16" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rVDashboardd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSharedWith"
+            android:layout_marginStart="@dimen/margin32"
+            android:layout_marginTop="@dimen/margin8" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rVDashboardd"
+            android:layout_marginTop="@dimen/margin24"
+            android:background="@drawable/dashboard_drawable">
+
+            <ImageView
+                android:id="@+id/ivFolder"
+                android:layout_width="@dimen/margin56"
+                android:layout_height="@dimen/margin56"
+                android:layout_marginStart="@dimen/margin32"
+                android:layout_marginTop="@dimen/margin24"
+                android:background="@drawable/folder" />
+
+            <TextView
+                android:id="@+id/tVDashboardd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin24"
+                android:layout_marginTop="@dimen/margin32"
+                android:layout_toRightOf="@id/ivFolder"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/tvdashboard"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textsize16" />
+
+            <TextView
+                android:id="@+id/tvMb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tVDashboardd"
+                android:layout_marginLeft="@dimen/margin24"
+                android:layout_toRightOf="@id/ivFolder"
+                android:fontFamily="@font/montserrat_light"
+                android:text="@string/_2_5mb" />
+
+            <TextView
+                android:id="@+id/tvUploading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ivFolder"
+                android:layout_marginLeft="@dimen/margin24"
+                android:layout_marginTop="@dimen/margin24"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/uploading"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/gg" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

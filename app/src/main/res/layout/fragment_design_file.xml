@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#365CA6">
+    <include
+        layout="@layout/layout_toolbar"/>
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/design_file_drawable"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvAllFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin48"
+
+            android:layout_marginTop="@dimen/margin16"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/allfile"
+            android:textSize="@dimen/textsize16" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAllFill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvAllFile"
+            android:layout_marginStart="@dimen/margin16"
+            android:layout_marginTop="@dimen/margin8" />
+
+        <TextView
+            android:id="@+id/tvSharedWith"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rvAllFill"
+            android:layout_marginStart="@dimen/margin48"
+            android:layout_marginTop="@dimen/margin16"
+            android:layout_marginBottom="@dimen/margin24"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/shared_with"
+            android:textSize="@dimen/textsize16" />
+
+        <ImageView
+            android:id="@+id/ivAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSharedWith"
+            android:layout_marginStart="@dimen/margin48"
+            android:layout_marginTop="@dimen/margin8"
+            android:layout_marginBottom="@dimen/margin24"
+            android:background="@drawable/shared_with_line_drawable"
+            android:src="@drawable/ic_baseline_add_24" />
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/margin40"
+            android:layout_height="@dimen/margin40"
+            android:layout_below="@id/tvSharedWith"
+            android:layout_marginTop="@dimen/margin8"
+            android:layout_marginStart="@dimen/margin16"
+            android:layout_marginBottom="@dimen/margin24"
+            android:layout_toEndOf="@id/ivAdd"
+            android:src="@drawable/avater"
+            app:civ_border_color="@color/gray"
+            app:civ_border_width="2dp" />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

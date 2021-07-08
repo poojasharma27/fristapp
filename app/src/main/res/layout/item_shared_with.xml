@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:background="@drawable/tv_folder_drawable"
+    android:layout_marginStart="@dimen/margin16"
+    android:layout_marginEnd="@dimen/margin16"
+    android:layout_marginTop="@dimen/margin16"
+    android:id="@+id/rlMain"
+    android:layout_marginBottom="@dimen/margin16"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivFolder"
+        android:layout_width="@dimen/margin40"
+        android:layout_height="@dimen/margin40"
+        android:background="@drawable/folder"
+        android:layout_marginTop="@dimen/margin24"
+        android:layout_marginStart="@dimen/margin32"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="@dimen/margin32"
+        android:layout_height="@dimen/margin32"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="@dimen/margin20"
+        android:src="@drawable/avater"
+        android:layout_alignParentRight="true"
+        app:civ_border_width="2dp"
+        android:layout_marginTop="@dimen/margin24"
+        app:civ_border_color="@color/gray"/>
+
+    <TextView
+        android:id="@+id/tvDesign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivFolder"
+        android:text="@string/design"
+        android:layout_marginStart="@dimen/margin32"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/margin24"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="@dimen/margin16"/>
+    <TextView
+        android:id="@+id/tvCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDesign"
+        android:text="Created: 08/08/2021"
+        android:layout_marginStart="@dimen/margin32"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_light"
+        android:layout_marginBottom="@dimen/margin24"
+        android:textSize="@dimen/margin8"/>
+
+</RelativeLayout>

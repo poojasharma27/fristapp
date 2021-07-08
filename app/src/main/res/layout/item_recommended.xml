@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cLMain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin16"
+    android:layout_marginTop="@dimen/margin16"
+    android:layout_marginEnd="@dimen/margin16"
+    android:background="@drawable/add_news_image_drawable">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cVImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin16"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_marginBottom="@dimen/margin24"
+        app:cardCornerRadius="@dimen/margin16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivNews"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_girlres_background" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvNewsName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin24"
+        android:layout_marginTop="@dimen/margin24"
+        android:layout_toEndOf="@id/cVImage"
+        android:ellipsize="end"
+        android:fontFamily="@font/montserrat_semibold"
+        android:maxLines="2"
+        android:text="@string/hello"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize16" />
+
+    <TextView
+        android:id="@+id/tvtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvNewsName"
+        android:layout_marginStart="@dimen/margin24"
+        android:layout_marginTop="@dimen/margin16"
+        android:layout_toEndOf="@id/cVImage"
+        android:fontFamily="@font/montserrat_light"
+        android:text="@string/hello"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize8" />
+</RelativeLayout>
