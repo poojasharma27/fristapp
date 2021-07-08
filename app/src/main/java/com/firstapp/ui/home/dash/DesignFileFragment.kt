@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
 
 
-class Design_File_Fragment : Fragment() {
+class DesignFileFragment : Fragment() {
     lateinit var rvAllFile: RecyclerView
     lateinit var allFileAdapter: AllFileAdapter
     lateinit var  toolbar: LinearLayout

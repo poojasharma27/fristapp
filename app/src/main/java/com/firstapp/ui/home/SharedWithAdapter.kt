@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
-import com.firstapp.ui.home.dash.Design_File_Fragment
-import com.firstapp.ui.home.dash.Home_fragment
+import com.firstapp.ui.home.dash.DesignFileFragment
+import com.firstapp.ui.home.dash.Homefragment
 
-class Shared_With_Adapter(private  var mData:List<String>, private  var homeFragment: Home_fragment):
-    RecyclerView.Adapter<Shared_With_Adapter.ViewHolder>() {
+class SharedWithAdapter(private  var mData:List<String>, private  var homeFragment: Homefragment):
+    RecyclerView.Adapter<SharedWithAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +29,7 @@ class Shared_With_Adapter(private  var mData:List<String>, private  var homeFrag
         holder.tvName.text =mData.get(position)
         holder.rlMain.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                val designFileFragment: Design_File_Fragment = Design_File_Fragment()
+                val designFileFragment: DesignFileFragment = DesignFileFragment()
             val fragmentManager: FragmentManager? =
                     homeFragment?.fragmentManager
                 val fragmentTransaction = fragmentManager?.beginTransaction()

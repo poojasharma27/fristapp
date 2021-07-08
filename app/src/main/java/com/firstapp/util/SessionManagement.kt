@@ -2,16 +2,30 @@ package com.firstapp.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 
 class SessionManagement {
 
     var sp: SharedPreferences?= null
+    val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
-    constructor(context: Context){
+  /*  constructor(context: Context){
         sp = context.getSharedPreferences("db",Context.MODE_PRIVATE)
+    }*/
+
+
+  constructor(context: Context){
+
+     sp   =   EncryptedSharedPreferences.create(
+            "encrypted_preferences", // fileName
+            masterKeyAlias, // masterKeyAlias
+            context, // context
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV, // prefKeyEncryptionScheme
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM // prefvalueEncryptionScheme
+        )
+
     }
-
-
 
     fun setUserEmail(email: String?){
         setSharedPreference("email",email.toString())

@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
 import com.firstapp.model.User
-import com.firstapp.ui.home.Shared_With_Adapter
-import com.firstapp.util.Constants
+import com.firstapp.ui.home.SharedWithAdapter
 import com.firstapp.util.ExtrasConstants
 
 
-class Home_fragment : Fragment(){
+class Homefragment : Fragment(){
 lateinit var  rvMain: RecyclerView
-lateinit var adapter: Shared_With_Adapter
+lateinit var adapter: SharedWithAdapter
     lateinit var  toolbar: LinearLayout
     lateinit var dashboardNames: ArrayList<String>
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,7 +39,7 @@ lateinit var adapter: Shared_With_Adapter
     }
 
     private fun genrateList() {
-        adapter = Shared_With_Adapter(
+        adapter = SharedWithAdapter(
             dashboardNames,
 this        )
         val linearLayoutManager = LinearLayoutManager(context)

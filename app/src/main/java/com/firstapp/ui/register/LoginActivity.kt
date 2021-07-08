@@ -13,16 +13,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.firstapp.R
 import com.firstapp.model.User
-import com.firstapp.network.ApiSerives
-import com.firstapp.network.ApiServiceIn
 import com.firstapp.ui.home.DashboardActivity
-import com.firstapp.util.Constants
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
 import com.google.android.material.textfield.TextInputEditText
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import java.io.FileInputStream
+import java.io.FileOutputStream
+
 
 class LoginActivity : AppCompatActivity() {
     lateinit var loginbtn: TextView
@@ -32,6 +29,9 @@ class LoginActivity : AppCompatActivity() {
     lateinit var signup: TextView
     lateinit var emailStr: String
     lateinit var passwordStr: String
+    lateinit var  tvforgot :TextView
+    var file ="MyInternalData"
+    lateinit var data: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
         emailed = findViewById(R.id.edemail)
         passed = findViewById(R.id.edpassword)
         signup = findViewById(R.id.tvdonto)
+        tvforgot = findViewById(R.id.tvforgot)
         emailStr = emailed.text.toString()
         passwordStr = passed.text.toString()
         signup.setOnClickListener(object : View.OnClickListener {
@@ -59,11 +60,19 @@ class LoginActivity : AppCompatActivity() {
                 ) {
                 /// hitLoginApi()
                 val user = User(emailed.text.toString(), passed.text.toString())
-                   /* val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
-                    intent.putExtra("Users", user)
-                    startActivity(intent)*/
                     startActivity(Intent(this@LoginActivity, DashboardActivity::class.java).putExtra(
                         ExtrasConstants.Users.name, user))
+                    try {
+                        val fin: FileInputStream = openFileInput(file)
+                        var c: Int
+                        var temp = ""
+                        while (fin.read().also { c = it } != -1) {
+                            temp = temp + Character.toString(c.toChar())
+                        }
+                       Log.d("temp",temp)
+                        Toast.makeText(baseContext, "file read", Toast.LENGTH_SHORT).show()
+                    } catch (e: java.lang.Exception) {
+                    }
                 } else {
                     Toast.makeText(this@LoginActivity, "", Toast.LENGTH_LONG).show()
                 }
@@ -79,6 +88,21 @@ class LoginActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_INCLUSIVE
         )
         signup.text = spannable
+        tvforgot.setOnClickListener(object:View.OnClickListener{
+            override fun onClick(v: View?) {
+                try {
+                    data=emailed.text.toString()
+                    val fOut: FileOutputStream = openFileOutput(file, MODE_PRIVATE)
+                    fOut.write(data.toByteArray())
+                    fOut.close()
+                    Toast.makeText(baseContext, "file saved", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace()
+                }
+          }
+
+        })
     }
 
     override fun onStart() {

@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
 
-class AllFileAdapter(private var lData: ArrayList<String>, private var desginFragment: Design_File_Fragment) :
+class AllFileAdapter(private var lData: ArrayList<String>, private var desginFragment: DesignFileFragment) :
     RecyclerView.Adapter<AllFileAdapter.ViewHolder>() {
 
 

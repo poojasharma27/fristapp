@@ -12,7 +12,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.firstapp.R
+import com.firstapp.model.User
 import com.firstapp.ui.home.DashboardActivity
+import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
 import com.google.android.material.textfield.TextInputEditText
 
@@ -42,8 +44,9 @@ lateinit var confirmev : TextInputEditText
             override fun onClick(v: View?) {
                 sessionManagement.setUserEmail(emailev.text.toString())
                 sessionManagement.setUserPassword(passwordev.text.toString())
-                startActivity(Intent(this@SignUpActivity, DashboardActivity::class.java))
-2
+                val user = User(emailev.text.toString(), passwordev.text.toString())
+                startActivity(Intent(this@SignUpActivity, DashboardActivity::class.java).putExtra(
+                    ExtrasConstants.Users.name, user))
             }
 
         })
