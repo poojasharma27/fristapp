@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.firstapp.R
 import com.firstapp.model.Article
 
-class AddNewsAdapter (val  list:List<Article>,val  addNewsFragment: AddNewsFragment) :
+class AddNewsAdapter (val  list:List<Article>, val  addNewsFragment: AddNewsFragment) :
     RecyclerView.Adapter<AddNewsAdapter.ViewHolder>() {
 
 
@@ -26,7 +26,7 @@ class AddNewsAdapter (val  list:List<Article>,val  addNewsFragment: AddNewsFragm
         /**
          * We can also use glide's placeholder
          */
-        if(list.get(position).urlToImage.isNotEmpty()){
+      if(!list.get(position).urlToImage.isNullOrEmpty()){
             Glide.with(addNewsFragment)
                 .load(list.get(position).urlToImage).into(holder.ivNews)
         }else{

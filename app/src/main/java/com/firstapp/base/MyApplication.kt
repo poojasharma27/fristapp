@@ -8,10 +8,10 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.firstapp.BuildConfig
+import kotlinx.coroutines.Job
 
 
 class MyApplication : Application() {
-
    init {
        instance = this
    }
@@ -23,6 +23,7 @@ class MyApplication : Application() {
             return instance!!.applicationContext
         }
     }
+
     override fun onCreate() {
         super.onCreate()
         val mContext: Context  = MyApplication.getAppContext()

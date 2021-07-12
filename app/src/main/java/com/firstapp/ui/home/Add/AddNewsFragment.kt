@@ -9,12 +9,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.firstapp.R
 import com.firstapp.databinding.FragmentAddNewsBinding
 import com.firstapp.model.Article
 import com.firstapp.model.YourNewsResponse
 import com.firstapp.network.ApiSerives
 import com.firstapp.network.ApiServiceIn
-import kotlinx.android.synthetic.main.fragment_add_news.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +22,7 @@ import retrofit2.Response
 class AddNewsFragment :Fragment() {
 lateinit var  fragmentAddNewsBinding: FragmentAddNewsBinding
 lateinit var  yourNewsRecycler :RecyclerView
+lateinit var  yourSecondRecycler :RecyclerView
 lateinit var  addNewsAdapter: AddNewsAdapter
 lateinit var recommendedAdapter :RecommendedAdapter
 
@@ -33,6 +34,8 @@ lateinit var recommendedAdapter :RecommendedAdapter
      //   val v:View = inflater.inflate(R.layout.fragment_add_news,container,false)
         fragmentAddNewsBinding = FragmentAddNewsBinding.inflate(inflater,container,false)
         val view = fragmentAddNewsBinding.root
+        yourNewsRecycler =view.findViewById(R.id.rVMainHorizontial)
+        yourSecondRecycler =view.findViewById(R.id.rVSecondVertical)
         hitAddNewsApi()
    hitAddNewsApi()
 
@@ -68,15 +71,15 @@ lateinit var recommendedAdapter :RecommendedAdapter
         addNewsAdapter = AddNewsAdapter(list,this)
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        rVMainHorizontial.layoutManager = linearLayoutManager
-        rVMainHorizontial.setAdapter(addNewsAdapter)
+        yourNewsRecycler .layoutManager = linearLayoutManager
+        yourNewsRecycler.setAdapter(addNewsAdapter)
     }
   private  fun genratedRecommmededList( list:List<Article>){
       recommendedAdapter = RecommendedAdapter(list,this)
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        rVSecondVertical.layoutManager = linearLayoutManager
-        rVSecondVertical.setAdapter(recommendedAdapter)
+      yourSecondRecycler.layoutManager = linearLayoutManager
+      yourSecondRecycler.setAdapter(recommendedAdapter)
     }
 
 

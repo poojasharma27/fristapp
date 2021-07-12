@@ -14,7 +14,7 @@
             android:id="@+id/backArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginStart="@dimen/margin10"
             android:layout_marginTop="@dimen/margin10"
             android:src="@drawable/ic_baseline_arrow_back_24" />
 
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/backArrow"
-            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginStart="@dimen/margin10"
             android:layout_marginTop="@dimen/margin5"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/create_an_account"
@@ -47,7 +47,7 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="@string/name"
-                android:inputType="textPersonName"></com.google.android.material.textfield.TextInputEditText>
+                android:inputType="textPersonName" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,7 +68,7 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress"></com.google.android.material.textfield.TextInputEditText>
+                android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +90,7 @@
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="@string/phone_number"
                 android:inputType="number"
-                android:maxLength="10"></com.google.android.material.textfield.TextInputEditText>
+                android:maxLength="10" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,7 +110,7 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_medium"
                 android:inputType="number"
-                android:text="+91"></com.google.android.material.textfield.TextInputEditText>
+                android:text="@string/_91" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +132,7 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="@string/password"
-                android:inputType="textPassword"></com.google.android.material.textfield.TextInputEditText>
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -154,7 +154,7 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="@string/confirm_password"
-                android:inputType="textPassword"></com.google.android.material.textfield.TextInputEditText>
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,9 +166,9 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/margin40"
             android:background="@drawable/button_curve_drawble"
-            android:paddingLeft="120dp"
+            android:paddingStart="120dp"
             android:paddingTop="@dimen/margin15"
-            android:paddingRight="120dp"
+            android:paddingEnd="120dp"
             android:paddingBottom="@dimen/margin15"
             android:text="@string/signup"
             android:textColor="@color/white"
@@ -208,7 +208,7 @@
             android:layout_below="@id/tvdonto"
             android:layout_marginStart="@dimen/margin20"
             android:layout_marginTop="@dimen/margin40"
-            android:layout_toLeftOf="@id/tvor"
+            android:layout_toStartOf="@id/tvor"
             android:background="@color/gray"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -222,7 +222,7 @@
             android:layout_marginTop="@dimen/margin30"
             android:layout_marginEnd="@dimen/margin20"
             android:fontFamily="@font/montserrat_medium"
-            android:text="OR"
+            android:text="@string/or"
             app:layout_constraintStart_toEndOf="@+id/tvview" />
 
         <View
@@ -232,7 +232,7 @@
             android:layout_below="@id/tvdonto"
             android:layout_marginStart="@dimen/margin5"
             android:layout_marginTop="@dimen/margin40"
-            android:layout_toRightOf="@id/tvor"
+            android:layout_toEndOf="@id/tvor"
             android:background="@color/gray" />
 
         <TextView
@@ -261,9 +261,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/montserrat_medium"
-                android:paddingLeft="80dp"
+                android:paddingStart="80dp"
                 android:paddingTop="@dimen/margin15"
-                android:paddingRight="80dp"
+                android:paddingEnd="80dp"
                 android:paddingBottom="@dimen/margin15"
                 android:text="@string/login_with_facebook"
                 android:textColor="@color/purple_200" />
@@ -284,9 +284,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/montserrat_medium"
-                android:paddingLeft="90dp"
+                android:paddingStart="90dp"
                 android:paddingTop="@dimen/margin15"
-                android:paddingRight="90dp"
+                android:paddingEnd="90dp"
                 android:paddingBottom="@dimen/margin15"
                 android:text="@string/login_with_gmail"
                 android:textColor="@color/red" />

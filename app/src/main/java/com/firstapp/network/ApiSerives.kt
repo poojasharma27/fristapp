@@ -3,7 +3,7 @@ package com.firstapp.network
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 class ApiSerives {
 companion object {
@@ -15,7 +15,7 @@ companion object {
 
         val retrofit =
             Retrofit.Builder().baseUrl("https://newsapi.org/v2/").addConverterFactory(
-                GsonConverterFactory.create())
+                MoshiConverterFactory.create())
                 .client(httpClient.build())
                 .build()
 

@@ -2,7 +2,6 @@ package com.firstapp.network
 
 import com.firstapp.model.YourNewsResponse
 import retrofit2.Call
-import org.json.JSONObject
 import retrofit2.http.*
 
 

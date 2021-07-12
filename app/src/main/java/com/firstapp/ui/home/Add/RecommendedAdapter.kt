@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.firstapp.R
 import com.firstapp.model.Article
 import com.firstapp.util.ExtrasConstants
-import java.text.SimpleDateFormat
 import java.util.*
 
 class RecommendedAdapter(val  list:List<Article>, val  addNewsFragment: AddNewsFragment) :
@@ -64,8 +63,15 @@ class RecommendedAdapter(val  list:List<Article>, val  addNewsFragment: AddNewsF
         }*/
         holder.tvtime.text =list.get(position).publishedAt
 
-        Glide.with(addNewsFragment)
-            .load(list.get(position).urlToImage).into(holder.ivNews);
+
+        if(!list.get(position).urlToImage.isNullOrEmpty()){
+            Glide.with(addNewsFragment)
+                .load(list.get(position).urlToImage).into(holder.ivNews)
+        }else{
+
+            Glide.with(addNewsFragment)
+                .load(R.drawable.img_girlres_background).into(holder.ivNews)
+        }
         holder.cLMain.setOnClickListener(object :View.OnClickListener{
             override fun onClick(v: View?) {
 

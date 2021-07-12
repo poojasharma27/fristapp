@@ -22,7 +22,7 @@
                 android:id="@+id/backArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin10"
+                android:layout_marginStart="@dimen/margin10"
                 android:layout_marginTop="@dimen/margin10"
                 android:src="@drawable/ic_baseline_arrow_back_24" />
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvwelcomeback"
-                android:layout_marginLeft="@dimen/margin16"
+                android:layout_marginStart="@dimen/margin16"
                 android:layout_marginTop="@dimen/margin8"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="@string/login_to_your_account"
@@ -114,7 +114,7 @@
                 android:layout_below="@id/tvpassword"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/margin8"
-                android:layout_marginRight="@dimen/margin24"
+                android:layout_marginEnd="@dimen/margin24"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="@string/forgot_password" />
 
@@ -173,7 +173,7 @@
             android:layout_alignTop="@id/rsecond"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginStart="@dimen/margin10"
             android:layout_marginTop="-30dp"
             android:layout_marginEnd="@dimen/margin30"
             android:background="@drawable/forword_back_arrow_drawable"

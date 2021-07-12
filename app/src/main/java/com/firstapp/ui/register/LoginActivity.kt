@@ -10,18 +10,20 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.firstapp.R
+import com.firstapp.base.BaseApplication
+import com.firstapp.db.AppDataBase
 import com.firstapp.model.User
 import com.firstapp.ui.home.DashboardActivity
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.launch
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseApplication() {
     lateinit var loginbtn: TextView
     lateinit var sessionManagement: SessionManagement
     lateinit var emailed: TextInputEditText
@@ -29,8 +31,8 @@ class LoginActivity : AppCompatActivity() {
     lateinit var signup: TextView
     lateinit var emailStr: String
     lateinit var passwordStr: String
-    lateinit var  tvforgot :TextView
-    var file ="MyInternalData"
+    lateinit var tvforgot: TextView
+    var file = "MyInternalData"
     lateinit var data: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +53,13 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
+        launch {
+            this.let {
+            val userDeatails = AppDataBase.invoke(this@LoginActivity).userDeatilsDao().getuserDeatils()
+               Log.d("DetailsTAG",userDeatails.toString())
+            }
+
+        }
         sessionManagement = SessionManagement(this)
         loginbtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
@@ -58,10 +67,13 @@ class LoginActivity : AppCompatActivity() {
                         .equals(sessionManagement.getUserEmail()) && passed.text.toString()
                         .equals(sessionManagement.getPassword())
                 ) {
-                /// hitLoginApi()
-                val user = User(emailed.text.toString(), passed.text.toString())
-                    startActivity(Intent(this@LoginActivity, DashboardActivity::class.java).putExtra(
-                        ExtrasConstants.Users.name, user))
+                    /// hitLoginApi()
+                    val user = User(emailed.text.toString(), passed.text.toString())
+                    startActivity(
+                        Intent(this@LoginActivity, DashboardActivity::class.java).putExtra(
+                            ExtrasConstants.Users.name, user
+                        )
+                    )
                     try {
                         val fin: FileInputStream = openFileInput(file)
                         var c: Int
@@ -69,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
                         while (fin.read().also { c = it } != -1) {
                             temp = temp + Character.toString(c.toChar())
                         }
-                       Log.d("temp",temp)
+                        Log.d("temp", temp)
                         Toast.makeText(baseContext, "file read", Toast.LENGTH_SHORT).show()
                     } catch (e: java.lang.Exception) {
                     }
@@ -88,10 +100,10 @@ class LoginActivity : AppCompatActivity() {
             Spannable.SPAN_EXCLUSIVE_INCLUSIVE
         )
         signup.text = spannable
-        tvforgot.setOnClickListener(object:View.OnClickListener{
+        tvforgot.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 try {
-                    data=emailed.text.toString()
+                    data = emailed.text.toString()
                     val fOut: FileOutputStream = openFileOutput(file, MODE_PRIVATE)
                     fOut.write(data.toByteArray())
                     fOut.close()
@@ -100,10 +112,12 @@ class LoginActivity : AppCompatActivity() {
                     // TODO Auto-generated catch block
                     e.printStackTrace()
                 }
-          }
+            }
 
         })
+
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -142,10 +156,10 @@ class LoginActivity : AppCompatActivity() {
         super.onRestart()
     }
 
-   /* fun hitLoginApi() {
-        val service: ApiServiceIn =
-            ApiSerives.getRetrofitInstance().create(ApiServiceIn::class.java)
-        *//*    val jsonObject = JSONObject()
+    /* fun hitLoginApi() {
+         val service: ApiServiceIn =
+             ApiSerives.getRetrofitInstance().create(ApiServiceIn::class.java)
+         *//*    val jsonObject = JSONObject()
             jsonObject.addProperty("mobile", mobile)
             jsonObject.addProperty("password",password)*//*
         ///  val jsonObject = JSONObje
@@ -170,5 +184,29 @@ class LoginActivity : AppCompatActivity() {
 
         })
     }*/
+
+
+    /* private fun getTasks() {
+         class GetTasks :
+             AsyncTask<Void?, Void?, List<UserDeatails>>() {
+
+
+             override fun onPostExecute(tasks: List<UserDeatails>) {
+                 super.onPostExecute(tasks)
+                 Log.d("DetailsTAG", tasks.toString())
+             }
+
+
+             override fun doInBackground(vararg params: Void?): List<UserDeatails> {
+                 val userDeatails =
+                     AppDataBase.invoke(this@LoginActivity).userDeatilsDao().getuserDeatils()
+
+                 return userDeatails
+             }
+         }
+
+         val gt = GetTasks()
+         gt.execute()
+     }*/
 }
 

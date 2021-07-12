@@ -2,8 +2,10 @@ package com.firstapp.ui.register
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -11,14 +13,19 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.firstapp.R
+import com.firstapp.base.BaseApplication
+import com.firstapp.db.AppDataBase
 import com.firstapp.model.User
+import com.firstapp.model.UserDeatails
 import com.firstapp.ui.home.DashboardActivity
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.launch
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : BaseApplication() {
 lateinit var button:Button
 lateinit var nameev : TextInputEditText
 lateinit var emailev : TextInputEditText
@@ -26,6 +33,7 @@ lateinit var phnev : TextInputEditText
 lateinit var passwordev : TextInputEditText
 lateinit var confirmev : TextInputEditText
     lateinit var signbtn: TextView
+    lateinit var userDetails:UserDeatails
     lateinit var login: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +52,21 @@ lateinit var confirmev : TextInputEditText
             override fun onClick(v: View?) {
                 sessionManagement.setUserEmail(emailev.text.toString())
                 sessionManagement.setUserPassword(passwordev.text.toString())
+               launch {
+                   userDetails = UserDeatails(emailev.text.toString(),passwordev.text.toString())
+                 this?.let {
+                     AppDataBase(this@SignUpActivity!!).userDeatilsDao().addDetails(userDetails)
+                     Log.d("DetailsTAG",userDetails.toString())
+
+
+                 }
+               }
                 val user = User(emailev.text.toString(), passwordev.text.toString())
                 startActivity(Intent(this@SignUpActivity, DashboardActivity::class.java).putExtra(
                     ExtrasConstants.Users.name, user))
             }
 
         })
-
 
         Log.e("lifecycle","onCreate2")
        /* button = findViewById(R.id.btn)
@@ -106,4 +122,21 @@ lateinit var confirmev : TextInputEditText
 
         super.onRestart()
     }
+
+    /*private fun saveData(userDeatails: UserDeatails){
+        class  SaveNote : AsyncTask<Void, Void ,Void>(){
+
+            override fun doInBackground(vararg params: Void?): Void? {
+                AppDataBase(this@SignUpActivity!!).userDeatilsDao().addDetails(userDetails)
+             return null
+            }
+
+            override fun onPostExecute(result: Void?) {
+                super.onPostExecute(result)
+                Toast.makeText(this@SignUpActivity,"Note Save",Toast.LENGTH_LONG).show()
+                Log.d("DetailsTAG",userDeatails.toString())
+            }
+        }
+        SaveNote().execute()
+    }*/
 }
