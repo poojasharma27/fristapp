@@ -4,32 +4,24 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import androidx.security.crypto.MasterKeys
 
-class SessionManagement {
+class SessionManagement(context: Context) {
 
-    var sharedPreference: SharedPreferences?= null
-    val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+     private var sharedPreference: SharedPreferences?= null
 
 
-  /*  constructor(context: Context){
-        sharedPreference = context.getSharedPreferences("db",Context.MODE_PRIVATE)
-    }*/
-
-
-  constructor(context: Context){
-      /**
-       * TODO  update MasterKey
-       */
-      //val masterKeyAliass = MasterKey.Builder(context)
-     sharedPreference   =   EncryptedSharedPreferences.create(
-            "encrypted_preferences", // fileName
-            masterKeyAlias, // masterKeyAlias
-            context, // context
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV, // prefKeyEncryptionScheme
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM // prefvalueEncryptionScheme
-        )
-
+    init {
+        val mainKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        EncryptedSharedPreferences.create(
+            context, // fileName,
+            "",
+            mainKey, // masterKeyAlias
+            // context
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        ).also { sharedPreference = it }
     }
 
     fun setUserEmail(email: String?){
@@ -53,14 +45,16 @@ class SessionManagement {
 
 
      private fun setSharedPreference(key:String, value:String) {
-         val editor = sharedPreference!!.edit()
-         editor.putString(key,value)
-         editor.apply()
+         val editor = sharedPreference?.edit()
+         editor?.putString(key,value)
+             editor?.apply()
+
      }
 
-    fun clearSession(){
+    fun cleanSharedPreference(){
         val editor = sharedPreference?.edit()
         editor?.clear()
-        editor?.apply()
+            editor?.apply()
+
     }
 }

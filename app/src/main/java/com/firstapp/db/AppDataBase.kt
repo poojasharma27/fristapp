@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.firstapp.db.entities.UserEntity
 
-@Database(entities = arrayOf(UserEntity::class),version = 1)
+@Database(entities = arrayOf(UserEntity::class),version = 2)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun userDetailsDao() : UserDetailsDao
@@ -23,6 +23,7 @@ abstract class AppDataBase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) = Room.databaseBuilder(context,
             AppDataBase::class.java, "todo-list.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 }

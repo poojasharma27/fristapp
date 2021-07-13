@@ -1,24 +1,19 @@
 package com.firstapp.ui.home
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firstapp.R
-import com.firstapp.ui.home.dash.DesignFileFragment
-import com.firstapp.ui.home.dash.HomeFragment
+import com.firstapp.databinding.ItemSharedWithBinding
+import com.firstapp.util.ItemClickListener
 
-class SharedWithAdapter(private  var mData:List<String>, private  var homeFragment: HomeFragment):
+class SharedWithAdapter(private  var mData:List<String>,   val context: Context?, private val clickListener: ItemClickListener?):
     RecyclerView.Adapter<SharedWithAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v:View = LayoutInflater.from(parent.context).inflate(R.layout.item_shared_with, parent, false);
-        return ViewHolder(v)
+        val binding =ItemSharedWithBinding.inflate( LayoutInflater.from(parent.context),parent,false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -26,35 +21,17 @@ class SharedWithAdapter(private  var mData:List<String>, private  var homeFragme
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvName.text =mData.get(position)
-        holder.rlMain.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                val designFileFragment: DesignFileFragment = DesignFileFragment()
-            val fragmentManager: FragmentManager? =
-                    homeFragment?.fragmentManager
-                val fragmentTransaction = fragmentManager?.beginTransaction()
-                fragmentTransaction?.replace(R.id.flMain, designFileFragment)
-                fragmentTransaction?.addToBackStack("null")
-                fragmentTransaction?.commit()
-
-
-                     }
-
-        })
-    }
-
-    class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-     var tvName: TextView = itemView.findViewById(R.id.tvDesign)
-     var rlMain: RelativeLayout = itemView.findViewById(R.id.rlMain)
-
-
-    }
-
-    private fun switchFragment(newFragment: Fragment) {
-        if (homeFragment.context == null) return
-        if (homeFragment.context is DashboardActivity) {
-            val feeds: DashboardActivity =homeFragment.context as DashboardActivity
-            feeds.switchContent(newFragment)
+        holder.binding.tvDesign.text =mData[position]
+        holder.binding.rlMain.setOnClickListener {
+            clickListener?.onViewClicked(it, position)
         }
+
     }
+
+    class ViewHolder(val binding :  ItemSharedWithBinding):RecyclerView.ViewHolder(binding.root)
+
+
+
+
+
 }

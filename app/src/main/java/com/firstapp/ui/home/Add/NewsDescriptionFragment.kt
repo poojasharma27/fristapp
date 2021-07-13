@@ -16,53 +16,36 @@ import com.firstapp.network.model.Article
 import com.firstapp.util.ExtrasConstants
 
 class NewsDescriptionFragment :Fragment() {
-lateinit var fragmentNewsDescripationBinding: FragmentNewsDescripationBinding
-lateinit var tvTitle: TextView
-lateinit var tvDes: TextView
-lateinit var tvTime: TextView
-lateinit var tvauthore: TextView
-lateinit var  toolbar : LinearLayout
-lateinit var  ivDes : ImageView
-lateinit var  tvPressBack : ImageView
+  private var binding: FragmentNewsDescripationBinding?= null
+
+   private var  toolbar : LinearLayout?=null
+  private var  tvPressBack : ImageView ?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentNewsDescripationBinding= FragmentNewsDescripationBinding.inflate(inflater,container,false)
-        val view = fragmentNewsDescripationBinding.root
+        binding= FragmentNewsDescripationBinding.inflate(inflater,container,false)
+        val view = binding?.root
         val user: Article? = arguments?.getParcelable(ExtrasConstants.Users.name)
-        tvTitle =view.findViewById(R.id.tvTitle)
-        tvTime =view.findViewById(R.id.tvTime)
-        tvDes =view.findViewById(R.id.tvDes)
-        ivDes =view.findViewById(R.id.ivNews)
-        tvauthore =view.findViewById(R.id.tvBy)
         user?.run {
-            tvDes.text = user.description
-            tvTitle.text =user.title
-            tvTime .text =user.publishedAt
+           binding?.tvDes?.text = user.description
+            binding?.tvTitle?.text =user.title
+            binding?.tvTime?.text =user.publishedAt
             if (!user.author.isNullOrEmpty() ) {
-                tvauthore.text = user.author
+                binding?.tvBy?.text = user.author
             }
 
         }
-        Glide.with(this).load(user?.urlToImage).into(ivDes)
+        binding?.ivNews?.let { Glide.with(this).load(user?.urlToImage).into(it) }
 
-        toolbar= view.findViewById(R.id.toolbar)
-        toolbar.setBackgroundResource(R.color.lightBlack);
-        val tvAppBarName: TextView =view.findViewById(R.id.tvAppBarName)
-        tvAppBarName.setTextColor(Color.parseColor("#000000"))
-        tvPressBack =view.findViewById(R.id.ivBackPress)
-        tvPressBack.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-         fragmentManager?.popBackStack()
-            }
-
-        })
+       toolbar= view?.findViewById(R.id.toolbar)
+        toolbar?.setBackgroundResource(R.color.lightBlack)
+        val tvAppBarName: TextView? =view?.findViewById(R.id.tvAppBarName)
+        tvAppBarName?.setTextColor(Color.parseColor("#000000"))
+        tvPressBack =view?.findViewById(R.id.ivBackPress)
+        tvPressBack?.setOnClickListener { activity?.supportFragmentManager?.popBackStack() }
 
         return  view
     }
 }
-/*
-Glide.with(this).load(user?.urlToImage).into(ivDes)
-*/

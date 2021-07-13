@@ -1,19 +1,19 @@
 package com.firstapp.ui.home.dash
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.firstapp.R
+import com.firstapp.databinding.ItemAllFileBinding
 
-class AllFileAdapter(private var lData: ArrayList<String>, private var desginFragment: DesignFileFragment) :
+class AllFileAdapter(private var lData: ArrayList<String>,  val context: Context?) :
     RecyclerView.Adapter<AllFileAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v:View = LayoutInflater.from(parent.context).inflate(R.layout.item_all_file,parent,false)
-        return AllFileAdapter.ViewHolder(v)
+        val binding = ItemAllFileBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -21,9 +21,7 @@ class AllFileAdapter(private var lData: ArrayList<String>, private var desginFra
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvAllName.text=lData.get(position)
+        holder.binding.tvAppName.text=lData[position]
     }
-    class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-      val tvAllName: TextView =itemView.findViewById(R.id.tvAppName)
-    }
+    class ViewHolder(val binding: ItemAllFileBinding) : RecyclerView.ViewHolder(binding.root)
 }

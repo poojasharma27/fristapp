@@ -9,15 +9,16 @@ import com.firstapp.R
 import com.firstapp.network.model.User
 import com.firstapp.ui.home.Add.AddNewsFragment
 import com.firstapp.ui.home.dash.HomeFragment
-import com.firstapp.ui.home.profile.Profile_Fragment
+import com.firstapp.ui.home.profile.ProfileFragment
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class DashboardActivity : AppCompatActivity() {
-lateinit var  bottomNavigationView: BottomNavigationView
-    lateinit var sessionManagement: SessionManagement
+  private  var  bottomNavigationView: BottomNavigationView?=null
+    private lateinit var sessionManagement: SessionManagement
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
@@ -31,10 +32,10 @@ lateinit var  bottomNavigationView: BottomNavigationView
         bundle.putParcelable(ExtrasConstants.Users.name, user)
         Log.d("frag",user.toString())
 
-        val fragobj = HomeFragment()
-        setCurrentFragment(fragobj)
-        fragobj.setArguments(bundle)
-        bottomNavigationView.setOnNavigationItemSelectedListener {
+        val homeFragment = HomeFragment()
+        setCurrentFragment(homeFragment)
+        homeFragment.arguments=bundle
+        bottomNavigationView?.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.iDashbord->{
                     setCurrentFragment(HomeFragment())}
@@ -43,7 +44,7 @@ lateinit var  bottomNavigationView: BottomNavigationView
 
                 }
                 R.id.iPerson->{
-                    setCurrentFragment(Profile_Fragment())
+                    setCurrentFragment(ProfileFragment())
                 }
               /*  R.id.iLogout->{
                    sessionManagement.clearSession()
@@ -64,7 +65,7 @@ lateinit var  bottomNavigationView: BottomNavigationView
     fun switchContent(fragment: Fragment) {
       val  mContent: FragmentTransaction= supportFragmentManager.beginTransaction()
            mContent .replace(R.id.flMain, fragment).commit()
-        //slidemenu.showContent()
+
     }
 
 }

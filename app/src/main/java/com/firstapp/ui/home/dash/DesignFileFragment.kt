@@ -7,50 +7,50 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
+import com.firstapp.databinding.FragmentDesignFileBinding
+import com.firstapp.util.Util
 
 
 class DesignFileFragment : Fragment() {
-    lateinit var rvAllFile: RecyclerView
+    private var binding: FragmentDesignFileBinding? = null
     lateinit var allFileAdapter: AllFileAdapter
-    lateinit var  toolbar: LinearLayout
+     private var  toolbar: LinearLayout? = null
     val arrayList = arrayListOf("App Design", "Tour picture", "Working Website", "Client Documents")
-    lateinit var allFileArrayList: ArrayList<String>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v: View = inflater.inflate(R.layout.fragment_design_file, container, false)
-        rvAllFile = v.findViewById(R.id.rvAllFill)
+        binding = FragmentDesignFileBinding.inflate(inflater, container, false)
+        val view = binding?.root
         allFileList()
-        toolbar= v.findViewById(R.id.toolbar)
-        toolbar.setBackgroundResource(R.color.lightBlue);
-        val tvAppBarName: TextView =v.findViewById(R.id.tvAppBarName)
-        tvAppBarName.setTextColor(Color.parseColor("#000000"))
+        toolbar= view?.findViewById(R.id.toolbar)
+        toolbar?.setBackgroundResource(R.color.lightBlue)
+        val tvAppBarName: TextView ?=view?.findViewById(R.id.tvAppBarName)
+        tvAppBarName?.setTextColor(Color.parseColor("#000000"))
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(rvAllFile)
-        return v.rootView
+        itemTouchHelper.attachToRecyclerView(binding?.rvAllFill)
+        return view
     }
 
     private fun allFileList() {
         allFileAdapter = AllFileAdapter(
             arrayList,
-            this
+            activity
         )
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        rvAllFile.layoutManager = linearLayoutManager
-        rvAllFile.setAdapter(allFileAdapter)
+       binding?.rvAllFill ?.layoutManager = linearLayoutManager
+        binding?.rvAllFill ?.adapter=allFileAdapter
 
     }
 
-    var simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+  private  var simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
         ItemTouchHelper.SimpleCallback(
             0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.DOWN or ItemTouchHelper.UP
@@ -60,14 +60,18 @@ class DesignFileFragment : Fragment() {
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            Toast.makeText(activity, "on Move", Toast.LENGTH_SHORT).show()
+            context?.let {
+                Util.showToastShort(it,"on Move")
+            }
             return false
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-            Toast.makeText(activity, "on Swiped ", Toast.LENGTH_SHORT).show()
+            context?.let {
+                Util.showToastShort(it,"on Swiped")
+            }
             //Remove swiped item from list and notify the RecyclerView
-            val position = viewHolder.adapterPosition
+            val position = viewHolder.bindingAdapterPosition
             arrayList.removeAt(position)
             allFileAdapter.notifyDataSetChanged()
         }
