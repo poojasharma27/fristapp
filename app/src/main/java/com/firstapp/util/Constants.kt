@@ -8,5 +8,4 @@ enum class ExtrasConstants{
 
 
 class Constants {
-
 }
