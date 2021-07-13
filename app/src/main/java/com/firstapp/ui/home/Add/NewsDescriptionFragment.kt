@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.firstapp.R
 import com.firstapp.databinding.FragmentNewsDescripationBinding
-import com.firstapp.model.Article
+import com.firstapp.network.model.Article
 import com.firstapp.util.ExtrasConstants
 
 class NewsDescriptionFragment :Fragment() {

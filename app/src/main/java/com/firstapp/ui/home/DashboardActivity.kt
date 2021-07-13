@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.firstapp.R
-import com.firstapp.model.User
+import com.firstapp.network.model.User
 import com.firstapp.ui.home.Add.AddNewsFragment
-import com.firstapp.ui.home.dash.Homefragment
+import com.firstapp.ui.home.dash.HomeFragment
 import com.firstapp.ui.home.profile.Profile_Fragment
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
@@ -31,13 +31,13 @@ lateinit var  bottomNavigationView: BottomNavigationView
         bundle.putParcelable(ExtrasConstants.Users.name, user)
         Log.d("frag",user.toString())
 
-        val fragobj = Homefragment()
+        val fragobj = HomeFragment()
         setCurrentFragment(fragobj)
         fragobj.setArguments(bundle)
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.iDashbord->{
-                    setCurrentFragment(Homefragment())}
+                    setCurrentFragment(HomeFragment())}
                 R.id.iAdd->{
                     setCurrentFragment(AddNewsFragment())
 
