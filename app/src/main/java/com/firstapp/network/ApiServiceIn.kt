@@ -1,6 +1,6 @@
 package com.firstapp.network
 
-import com.firstapp.model.YourNewsResponse
+import com.firstapp.network.model.NewsResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -11,7 +11,7 @@ interface ApiServiceIn {
   fun signIn(@Query("mobile") mobile: String,@Query("password") password : String): Call<LoginResponce>
 */
   @GET("everything")
-  fun newsresponse(@Query("q") q: String,@Query("from") from : Int,@Query("sortBy") sortby : String,@Query("apiKey") apiKey : String): Call<YourNewsResponse>
+  fun news(@Query("q") q: String, @Query("from") from : Int, @Query("sortBy") sortBy : String, @Query("apiKey") apiKey : String): Call<NewsResponse>
 
 
 }

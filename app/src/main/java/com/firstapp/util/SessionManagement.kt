@@ -3,21 +3,26 @@ package com.firstapp.util
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import androidx.security.crypto.MasterKeys
 
 class SessionManagement {
 
-    var sp: SharedPreferences?= null
+    var sharedPreference: SharedPreferences?= null
     val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
+
   /*  constructor(context: Context){
-        sp = context.getSharedPreferences("db",Context.MODE_PRIVATE)
+        sharedPreference = context.getSharedPreferences("db",Context.MODE_PRIVATE)
     }*/
 
 
   constructor(context: Context){
-
-     sp   =   EncryptedSharedPreferences.create(
+      /**
+       * TODO  update MasterKey
+       */
+      //val masterKeyAliass = MasterKey.Builder(context)
+     sharedPreference   =   EncryptedSharedPreferences.create(
             "encrypted_preferences", // fileName
             masterKeyAlias, // masterKeyAlias
             context, // context
@@ -42,21 +47,20 @@ class SessionManagement {
     fun getPassword(): String?{
         return getSharedPreference(ExtrasConstants.Password.name)
     }
-    private fun getSharedPreference(key: String): String{
-        val result = sp!!.getString(key,null)
-
-        return result.toString()
+    private fun getSharedPreference(key: String): String?{
+        return sharedPreference?.getString(key,null)
     }
 
 
      private fun setSharedPreference(key:String, value:String) {
-         val editor = sp!!.edit()
+         val editor = sharedPreference!!.edit()
          editor.putString(key,value)
-         editor.commit()
+         editor.apply()
      }
 
     fun clearSession(){
-        val editor = sp?.edit()
+        val editor = sharedPreference?.edit()
         editor?.clear()
+        editor?.apply()
     }
 }

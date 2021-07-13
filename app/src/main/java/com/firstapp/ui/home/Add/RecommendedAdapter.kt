@@ -11,13 +11,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.firstapp.R
-import com.firstapp.model.Article
+import com.firstapp.network.model.Article
 import com.firstapp.util.ExtrasConstants
-import java.util.*
 
 class RecommendedAdapter(val  list:List<Article>, val  addNewsFragment: AddNewsFragment) :
     RecyclerView.Adapter<RecommendedAdapter.ViewHolder>(){
 
+    //TODO make custom itemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_recommended,parent,false)

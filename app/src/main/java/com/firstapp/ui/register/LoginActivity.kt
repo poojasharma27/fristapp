@@ -11,19 +11,19 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.firstapp.R
-import com.firstapp.base.BaseApplication
+import com.firstapp.base.BaseActivity
 import com.firstapp.db.AppDataBase
-import com.firstapp.model.User
+import com.firstapp.network.model.User
 import com.firstapp.ui.home.DashboardActivity
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
 
-class LoginActivity : BaseApplication() {
+class LoginActivity : BaseActivity() {
     lateinit var loginbtn: TextView
     lateinit var sessionManagement: SessionManagement
     lateinit var emailed: TextInputEditText
@@ -34,6 +34,7 @@ class LoginActivity : BaseApplication() {
     lateinit var tvforgot: TextView
     var file = "MyInternalData"
     lateinit var data: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -55,17 +56,17 @@ class LoginActivity : BaseApplication() {
         })
         launch {
             this.let {
-            val userDeatails = AppDataBase.invoke(this@LoginActivity).userDeatilsDao().getuserDeatils()
-               Log.d("DetailsTAG",userDeatails.toString())
+                val userDeatails =
+                    AppDataBase.invoke(this@LoginActivity).userDetailsDao().getUserDetails()
+                Log.d("DetailsTAG", userDeatails.toString())
+
             }
 
         }
         sessionManagement = SessionManagement(this)
         loginbtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                if (emailed.text.toString()
-                        .equals(sessionManagement.getUserEmail()) && passed.text.toString()
-                        .equals(sessionManagement.getPassword())
+                if (emailed.text.toString() == sessionManagement.getUserEmail() && passed.text.toString() == sessionManagement.getPassword()
                 ) {
                     /// hitLoginApi()
                     val user = User(emailed.text.toString(), passed.text.toString())

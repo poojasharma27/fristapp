@@ -10,9 +10,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
 import com.firstapp.ui.home.dash.DesignFileFragment
-import com.firstapp.ui.home.dash.Homefragment
+import com.firstapp.ui.home.dash.HomeFragment
 
-class SharedWithAdapter(private  var mData:List<String>, private  var homeFragment: Homefragment):
+class SharedWithAdapter(private  var mData:List<String>, private  var homeFragment: HomeFragment):
     RecyclerView.Adapter<SharedWithAdapter.ViewHolder>() {
 
 
