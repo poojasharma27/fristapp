@@ -3,7 +3,10 @@ package com.firstapp.util
 
 enum class ExtrasConstants{
     Users,
-    Events
+    Events,
+    Email,
+    Password
+
 }
 
 

@@ -28,19 +28,19 @@ class SessionManagement {
     }
 
     fun setUserEmail(email: String?){
-        setSharedPreference("email",email.toString())
+        setSharedPreference(ExtrasConstants.Email.name,email.toString())
     }
     fun getUserEmail():String?{
-        return getSharedPreference("email")
+        return getSharedPreference(ExtrasConstants.Email.name)
     }
 
 
     fun setUserPassword(password:String){
-        setSharedPreference("password",password)
+        setSharedPreference(ExtrasConstants.Password.name,password)
     }
 
     fun getPassword(): String?{
-        return getSharedPreference("password")
+        return getSharedPreference(ExtrasConstants.Password.name)
     }
     private fun getSharedPreference(key: String): String{
         val result = sp!!.getString(key,null)
@@ -56,7 +56,7 @@ class SessionManagement {
      }
 
     fun clearSession(){
-        val editor = sp!!.edit()
-        editor.clear()
+        val editor = sp?.edit()
+        editor?.clear()
     }
 }
