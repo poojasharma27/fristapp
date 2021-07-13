@@ -9,9 +9,4 @@ enum class ExtrasConstants{
 
 class Constants {
 
-    /*companion object{
-        public final val Users = "Users"
-        public final val event = "Event"
-    }*/
-
 }
