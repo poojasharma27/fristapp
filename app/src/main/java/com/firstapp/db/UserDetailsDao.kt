@@ -9,12 +9,12 @@ import com.firstapp.db.entities.UserEntity
 interface UserDetailsDao {
 
     @Insert
-    suspend fun addDetails(userDeatails: UserEntity)
+    suspend fun addDetails(userEntity: UserEntity)
 
     @Query(" SELECT * FROM UserEntity ORDER BY uid DESC")
     suspend fun getUserDetails() : List<UserEntity>
 
     @Insert
-     suspend fun addMultipleDetails(vararg userDeatails: UserEntity)
+     suspend fun addMultipleDetails(vararg userEntity: UserEntity)
 
 }

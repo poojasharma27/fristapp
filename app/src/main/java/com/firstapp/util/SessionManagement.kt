@@ -51,7 +51,7 @@ class SessionManagement(context: Context) {
 
      }
 
-    fun cleanSharedPreference(){
+    fun clearSharedPreference(){
         val editor = sharedPreference?.edit()
         editor?.clear()
             editor?.apply()
