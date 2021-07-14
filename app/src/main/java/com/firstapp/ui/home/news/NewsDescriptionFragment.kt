@@ -1,4 +1,4 @@
-package com.firstapp.ui.home.Add
+package com.firstapp.ui.home.news
 
 import android.graphics.Color
 import android.os.Bundle

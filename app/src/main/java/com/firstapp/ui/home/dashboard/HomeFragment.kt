@@ -1,4 +1,4 @@
-package com.firstapp.ui.home.dash
+package com.firstapp.ui.home.dashboard
 
 import android.annotation.SuppressLint
 import android.os.Bundle
