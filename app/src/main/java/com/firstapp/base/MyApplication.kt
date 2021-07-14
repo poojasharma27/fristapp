@@ -26,7 +26,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val mContext: Context  = MyApplication.getAppContext()
+       MyApplication.getAppContext()
         SoLoader.init(this, false)
 
         if (BuildConfig.DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
