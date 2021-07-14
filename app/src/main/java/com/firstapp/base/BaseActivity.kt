@@ -18,7 +18,7 @@ abstract class BaseActivity : AppCompatActivity() ,CoroutineScope{
         super.onCreate(savedInstanceState)
         job =Job()
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
