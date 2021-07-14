@@ -1,12 +1,10 @@
 package com.firstapp.base
 
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseActivity : AppCompatActivity() ,CoroutineScope{
@@ -20,10 +18,7 @@ abstract class BaseActivity : AppCompatActivity() ,CoroutineScope{
         super.onCreate(savedInstanceState)
         job =Job()
     }
-
-
-
-
+    
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
