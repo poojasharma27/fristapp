@@ -12,6 +12,7 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun userDetailsDao() : UserDetailsDao
 
     companion object {
+
         @Volatile private var instance: AppDataBase? = null
         private val LOCK = Any()
 

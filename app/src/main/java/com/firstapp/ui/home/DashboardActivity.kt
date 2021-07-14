@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.firstapp.R
 import com.firstapp.network.model.User
-import com.firstapp.ui.home.Add.AddNewsFragment
-import com.firstapp.ui.home.dash.HomeFragment
+import com.firstapp.ui.home.news.NewsFragment
+import com.firstapp.ui.home.dashboard.HomeFragment
 import com.firstapp.ui.home.profile.ProfileFragment
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
@@ -40,7 +40,7 @@ class DashboardActivity : AppCompatActivity() {
                 R.id.iDashbord->{
                     setCurrentFragment(HomeFragment())}
                 R.id.iAdd->{
-                    setCurrentFragment(AddNewsFragment())
+                    setCurrentFragment(NewsFragment())
 
                 }
                 R.id.iPerson->{
