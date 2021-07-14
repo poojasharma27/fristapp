@@ -36,8 +36,15 @@ class AddNewsFragment : Fragment(), ItemClickListener {
         binding = FragmentAddNewsBinding.inflate(inflater, container, false)
         val view = binding?.root
 
-        getNews()
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //making the news api calls
+        getNews()
+
     }
 
     private fun getNews() {
