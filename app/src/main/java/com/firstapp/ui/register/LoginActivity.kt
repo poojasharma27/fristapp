@@ -7,6 +7,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.firstapp.base.BaseActivity
 import com.firstapp.databinding.ActivityLoginBinding
 import com.firstapp.db.AppDataBase
@@ -20,7 +21,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 
-class LoginActivity : BaseActivity() {
+class LoginActivity : AppCompatActivity(){
 
     private lateinit var sessionManagement: SessionManagement
     private var file = "MyInternalData"
@@ -41,7 +42,7 @@ class LoginActivity : BaseActivity() {
                 )
             )
         }
-        launch {
+        /*launch {
             this.let {
                 val userDetail =
                     AppDataBase.invoke(this@LoginActivity).userDetailsDao().getUserDetails()
@@ -49,7 +50,7 @@ class LoginActivity : BaseActivity() {
 
             }
 
-        }
+        }*/
         sessionManagement = SessionManagement(this)
         binding?.loginbtn?.setOnClickListener {
             if (binding?.edemail?.text.toString() == sessionManagement.getUserEmail() && binding?.edpassword?.text.toString() == sessionManagement.getPassword()

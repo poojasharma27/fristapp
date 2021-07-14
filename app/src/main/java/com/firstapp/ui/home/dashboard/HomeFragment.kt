@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firstapp.R
 import com.firstapp.databinding.FragmentHomeBinding
+import com.firstapp.network.model.Article
 import com.firstapp.network.model.User
 import com.firstapp.ui.home.SharedWithAdapter
 import com.firstapp.util.ExtrasConstants
@@ -73,6 +74,10 @@ class HomeFragment : Fragment() ,ItemClickListener{
         fragmentTransaction?.replace(R.id.flMain, designFileFragment)
         fragmentTransaction?.addToBackStack("null")
         fragmentTransaction?.commit()
+    }
+
+    override fun OnSaveClicked(view: View, article: Article) {
+        TODO("Not yet implemented")
     }
 
 }

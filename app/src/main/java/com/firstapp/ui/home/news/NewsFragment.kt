@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.firstapp.R
+import com.firstapp.base.BaseActivity
 import com.firstapp.databinding.FragmentAddNewsBinding
+import com.firstapp.db.AppDataBase
+import com.firstapp.db.entities.ArticleEntity
 import com.firstapp.network.ApiServiceIn
 import com.firstapp.network.ApiServices
 import com.firstapp.network.model.Article
@@ -17,20 +19,16 @@ import com.firstapp.network.model.NewsResponse
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.ItemClickListener
 import com.firstapp.util.showToastLong
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsFragment : Fragment(), ItemClickListener {
+class NewsFragment : BaseActivity(), ItemClickListener {
     private var binding: FragmentAddNewsBinding? = null
     private var addNewsAdapter: AddNewsAdapter? = null
     private var recommendedAdapter: RecommendedAdapter? = null
-    private  var list: ArrayList<Article> = ArrayList<Article>()
-
-    override fun onResume() {
-        super.onResume()
-
-    }
+    private var list: ArrayList<Article> = ArrayList<Article>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +58,7 @@ class NewsFragment : Fragment(), ItemClickListener {
         binding?.rVMainHorizontial?.apply {
             this.adapter = AddNewsAdapter(list)
         }
+
     }
 
     private fun getNews() {
@@ -100,14 +99,15 @@ class NewsFragment : Fragment(), ItemClickListener {
 
     private fun setNewsList(list: List<Article>) {
         this.list.addAll(list)
-      binding?.rVMainHorizontial?.adapter?.notifyDataSetChanged()
+        binding?.rVMainHorizontial?.adapter?.notifyDataSetChanged()
     }
 
+    //    /*
+//    TODO Note add Interface call and recyclerview set
+//
+//    */
     private fun setRecommendList(list: List<Article>) {
         recommendedAdapter = RecommendedAdapter(list, activity as? Context, this)
-        val linearLayoutManager = LinearLayoutManager(context)
-        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        binding?.rVSecondVertical?.layoutManager = linearLayoutManager
         binding?.rVSecondVertical?.adapter = recommendedAdapter
     }
 
@@ -121,6 +121,27 @@ class NewsFragment : Fragment(), ItemClickListener {
         fragmentTransaction?.replace(R.id.flMain, newsDescriptionFragment)
         fragmentTransaction?.addToBackStack("null")
         fragmentTransaction?.commit()
+    }
+
+    override fun OnSaveClicked(view: View, article: Article) {
+        val articleEntity = ArticleEntity(
+            author = article.author,
+            content = article.content,
+            description = article.description,
+            publishedAt = article.publishedAt,
+            title = article.title,
+            url = article.url,
+            urlToImage = article.urlToImage
+        )
+        launch {
+            context?.let {
+              val articleEntity= AppDataBase.invoke(it).userDetailsDao().addArticle(articleEntity)
+                Log.d("articleEntity",articleEntity.toString())
+
+            }
+        }
+
+
     }
 
 

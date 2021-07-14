@@ -22,24 +22,31 @@ class RecommendedAdapter(val list: List<Article>, val context: Context?, private
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val article: Article = list[position]
+
         holder.binding.tvNewsName.text =list[position].title
         holder.binding.tvtime.text =list[position].publishedAt
 
 
         if(!list[position].urlToImage.isNullOrEmpty()){
-            context?.let {
-                Glide.with(it)
+
+                Glide.with(holder.binding.ivNews.context)
                     .load(list[position].urlToImage).into(holder.binding.ivNews)
-            }
+
         }else{
 
-            context?.let {
-                Glide.with(it)
+
+                Glide.with(holder.binding.ivNews.context)
                     .load(R.drawable.img_girlres_background).into(holder.binding.ivNews)
-            }
+
         }
+
         holder.binding.cLMain.setOnClickListener {
             clickListener?.onViewClicked(it, position)
+        }
+        holder.binding.ivbookmarked.setOnClickListener {
+            clickListener?.OnSaveClicked(it,article)
+
         }
     }
 

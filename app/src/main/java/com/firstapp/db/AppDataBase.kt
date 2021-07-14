@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.firstapp.db.entities.ArticleEntity
 import com.firstapp.db.entities.UserEntity
+import com.firstapp.network.model.Article
 
-@Database(entities = arrayOf(UserEntity::class),version = 2)
+@Database(entities = arrayOf(UserEntity::class,ArticleEntity::class),version = 2)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun userDetailsDao() : UserDetailsDao
+
 
     companion object {
 

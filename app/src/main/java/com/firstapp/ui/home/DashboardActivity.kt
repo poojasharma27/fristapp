@@ -9,7 +9,7 @@ import com.firstapp.R
 import com.firstapp.network.model.User
 import com.firstapp.ui.home.news.NewsFragment
 import com.firstapp.ui.home.dashboard.HomeFragment
-import com.firstapp.ui.home.profile.ProfileFragment
+import com.firstapp.ui.home.bookmarked.BookMarkFragment
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -44,7 +44,7 @@ class DashboardActivity : AppCompatActivity() {
 
                 }
                 R.id.iPerson->{
-                    setCurrentFragment(ProfileFragment())
+                    setCurrentFragment(BookMarkFragment())
                 }
               /*  R.id.iLogout->{
                    sessionManagement.clearSession()

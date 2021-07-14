@@ -7,6 +7,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.firstapp.base.BaseActivity
 import com.firstapp.databinding.ActivitySignupBinding
 import com.firstapp.db.AppDataBase
@@ -17,7 +18,7 @@ import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
 import kotlinx.coroutines.launch
 
-class SignUpActivity : BaseActivity() {
+class SignUpActivity : AppCompatActivity() {
    private lateinit var userDetails: UserEntity
   private  var binding : ActivitySignupBinding?=null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +31,9 @@ class SignUpActivity : BaseActivity() {
       binding?.signbtn?.setOnClickListener {
           sessionManagement.setUserEmail(binding?.edemail?.text.toString())
           sessionManagement.setUserPassword(binding?.edpassword?.text.toString())
-          launch {
+          /*launch {
               userDetails = UserEntity(
-                  binding?.edemail?.text.toString(),
+              BaseActivity    binding?.edemail?.text.toString(),
                   binding?.edpassword?.text.toString()
               )
               this.let {
@@ -41,7 +42,7 @@ class SignUpActivity : BaseActivity() {
 
 
               }
-          }
+          }*/
           val user = User(binding?.edemail?.text.toString(), binding?.edpassword?.text.toString())
           startActivity(
               Intent(this@SignUpActivity, DashboardActivity::class.java).putExtra(
