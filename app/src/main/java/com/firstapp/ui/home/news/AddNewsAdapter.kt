@@ -9,7 +9,7 @@ import com.firstapp.R
 import com.firstapp.databinding.ItemAddNewsRowBinding
 import com.firstapp.network.model.Article
 
-class AddNewsAdapter (val  list:List<Article>, val  context: Context?) :
+class AddNewsAdapter (val  list:ArrayList<Article>) :
     RecyclerView.Adapter<AddNewsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,15 +22,13 @@ class AddNewsAdapter (val  list:List<Article>, val  context: Context?) :
         holder.binding.tvNewsName.text = list[position].title
         holder.binding.tvtime.text = list[position].publishedAt
 
-        context?.let {
             if(!(list[position].urlToImage.isNullOrEmpty())){
-                Glide.with(context)
+                Glide.with(holder.binding.ivNews.context)
                     .load(list[position].urlToImage).into(holder.binding.ivNews)
             }else{
-                Glide.with(context)
+                Glide.with(holder.binding.ivNews.context)
                     .load(R.drawable.img_girlres_background).into(holder.binding.ivNews)
             }
-        }
 
     }
 

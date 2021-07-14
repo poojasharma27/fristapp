@@ -14,24 +14,26 @@ import com.firstapp.network.model.User
 import com.firstapp.ui.home.DashboardActivity
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
-import com.firstapp.util.Util
+import com.firstapp.util.showToastShort
 import kotlinx.coroutines.*
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
 
 class LoginActivity : BaseActivity() {
-   private lateinit var sessionManagement: SessionManagement
+
+    private lateinit var sessionManagement: SessionManagement
     private var file = "MyInternalData"
     private lateinit var data: String
-    var binding :ActivityLoginBinding? =null
+    var binding: ActivityLoginBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding?.root
         setContentView(view)
         Log.e("lifecycle", "onCreate")
-        binding ?. tvdonto?.setOnClickListener {
+        binding?.tvdonto?.setOnClickListener {
             startActivity(
                 Intent(
                     this@LoginActivity,
@@ -49,10 +51,11 @@ class LoginActivity : BaseActivity() {
 
         }
         sessionManagement = SessionManagement(this)
-       binding?.loginbtn?.setOnClickListener {
+        binding?.loginbtn?.setOnClickListener {
             if (binding?.edemail?.text.toString() == sessionManagement.getUserEmail() && binding?.edpassword?.text.toString() == sessionManagement.getPassword()
             ) { /// hitLoginApi()
-                val user = User(binding?.edemail?.text.toString(), binding?.edpassword?.text.toString())
+                val user =
+                    User(binding?.edemail?.text.toString(), binding?.edpassword?.text.toString())
                 startActivity(
                     Intent(this@LoginActivity, DashboardActivity::class.java).putExtra(
                         ExtrasConstants.Users.name, user
@@ -67,13 +70,13 @@ class LoginActivity : BaseActivity() {
                     }
                     Log.d("temp", temp)
                     baseContext?.let {
-                        Util.showToastShort(it, "file read")
+                        showToastShort(it, "file read")
                     }
                 } catch (e: java.lang.Exception) {
                 }
             } else {
                 baseContext?.let {
-                    Util.showToastShort(it, " ")
+                    showToastShort(it, " ")
                 }
             }
         }
@@ -84,15 +87,15 @@ class LoginActivity : BaseActivity() {
             30, // end
             Spannable.SPAN_EXCLUSIVE_INCLUSIVE
         )
-       binding?.tvdonto?.text = spannable
-        binding?. tvforgot?.setOnClickListener {
+        binding?.tvdonto?.text = spannable
+        binding?.tvforgot?.setOnClickListener {
             try {
                 data = binding?.edemail?.text.toString()
                 val fOut: FileOutputStream = openFileOutput(file, MODE_PRIVATE)
                 fOut.write(data.toByteArray())
                 fOut.close()
                 baseContext?.let {
-                    Util.showToastShort(it, "file saved")
+                    showToastShort(it, "file saved")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -138,7 +141,6 @@ class LoginActivity : BaseActivity() {
 
         super.onRestart()
     }
-
 
 
     /* private fun getTasks() {

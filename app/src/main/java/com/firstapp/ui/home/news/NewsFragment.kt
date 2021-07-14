@@ -16,16 +16,21 @@ import com.firstapp.network.model.Article
 import com.firstapp.network.model.NewsResponse
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.ItemClickListener
-import com.firstapp.util.Util
+import com.firstapp.util.showToastLong
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AddNewsFragment : Fragment(), ItemClickListener {
+class NewsFragment : Fragment(), ItemClickListener {
     private var binding: FragmentAddNewsBinding? = null
     private var addNewsAdapter: AddNewsAdapter? = null
     private var recommendedAdapter: RecommendedAdapter? = null
-    private lateinit var list: List<Article>
+    private  var list: ArrayList<Article> = ArrayList<Article>()
+
+    override fun onResume() {
+        super.onResume()
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,9 +47,19 @@ class AddNewsFragment : Fragment(), ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //setup  news recyclerView
+        setupRecyclerView()
+
         //making the news api calls
         getNews()
 
+    }
+
+    private fun setupRecyclerView() {
+
+        binding?.rVMainHorizontial?.apply {
+            this.adapter = AddNewsAdapter(list)
+        }
     }
 
     private fun getNews() {
@@ -59,37 +74,36 @@ class AddNewsFragment : Fragment(), ItemClickListener {
             )
         call.enqueue(object : Callback<NewsResponse> {
 
-            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-
-                //TODO - make an extension functions showLongToast and showShortToast
-                context?.let { Util.showToastLong(it, "error") }
-                Log.d("moshi", "error")
-            }
 
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
-                    getNewsList(response.body()!!.articles)
-                    getRecommendList(response.body()!!.articles)
-                    list = response.body()!!.articles
-                    /*     Toast.makeText(activity, "" + response.body(), Toast.LENGTH_LONG)
-                             .show()*/
+
+                    response.body()?.let {
+                        setNewsList(it.articles)
+                        setRecommendList(it.articles)
+                    }
+
                     Log.d("moshi", "success")
 
                 }
             }
 
+
+            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                showToastLong(activity, "error")
+                Log.d("moshi", "error")
+            }
+
+
         })
     }
 
-    private fun getNewsList(list: List<Article>) {
-        addNewsAdapter = AddNewsAdapter(list, activity as? Context)
-        val linearLayoutManager = LinearLayoutManager(context)
-        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        binding?.rVMainHorizontial?.layoutManager = linearLayoutManager
-        binding?.rVMainHorizontial?.adapter = addNewsAdapter
+    private fun setNewsList(list: List<Article>) {
+        this.list.addAll(list)
+      binding?.rVMainHorizontial?.adapter?.notifyDataSetChanged()
     }
 
-    private fun getRecommendList(list: List<Article>) {
+    private fun setRecommendList(list: List<Article>) {
         recommendedAdapter = RecommendedAdapter(list, activity as? Context, this)
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL

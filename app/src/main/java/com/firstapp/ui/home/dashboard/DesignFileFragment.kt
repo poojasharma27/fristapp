@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
 import com.firstapp.databinding.FragmentDesignFileBinding
-import com.firstapp.util.Util
+import com.firstapp.util.showToastShort
 
 
 class DesignFileFragment : Fragment() {
@@ -61,14 +61,14 @@ class DesignFileFragment : Fragment() {
             target: RecyclerView.ViewHolder
         ): Boolean {
             context?.let {
-                Util.showToastShort(it,"on Move")
+                showToastShort(it,"on Move")
             }
             return false
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
             context?.let {
-                Util.showToastShort(it,"on Swiped")
+                showToastShort(it,"on Swiped")
             }
             //Remove swiped item from list and notify the RecyclerView
             val position = viewHolder.bindingAdapterPosition
