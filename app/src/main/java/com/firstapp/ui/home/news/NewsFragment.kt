@@ -16,10 +16,7 @@ import com.firstapp.network.ApiServices
 import com.firstapp.network.model.Article
 import com.firstapp.network.model.NewsResponse
 import com.firstapp.ui.home.bookmarked.BookMarkAdapter
-import com.firstapp.util.ExtrasConstants
-import com.firstapp.util.ItemClickListener
-import com.firstapp.util.isInternetAvailable
-import com.firstapp.util.showToastLong
+import com.firstapp.util.*
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -100,9 +97,16 @@ class NewsFragment : BaseActivity(),ItemClickListener {
 
                 })
              launch {
-                    context?.let {
+                 val articleEntityList = mutableListOf<ArticleEntity>()
+
+                 for(item in list){
+                     articleEntityList.add(item.toArticleEntity())
+                 }
+
+                 context?.let {
                         val articleEntity = AppDataBase.invoke(it).userDetailsDao()
-                            .addArticle(list)
+                            .addArticle(articleEntityList)
+
                         Log.d("articleEntity", articleEntity.toString())
 
                     }
