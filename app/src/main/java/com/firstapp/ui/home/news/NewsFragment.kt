@@ -46,16 +46,29 @@ class NewsFragment : BaseActivity(), ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         //setup  news recyclerView
-        setupRecyclerView()
+        setupRecyclerViews()
         //making the news api calls
         getNews()
 
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerViews() {
 
         binding?.rVMainHorizontial?.apply {
             this.adapter = AddNewsAdapter(list)
+        }
+
+    binding?.rVSecondVertical?.apply {
+            this.adapter = RecommendedAdapter(list,activity, object : ItemClickListener{
+                override fun onViewClicked(view: View, position: Int) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun OnSaveClicked(view: View, article: Article) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         }
 
     }
