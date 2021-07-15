@@ -53,7 +53,6 @@ class NewsFragment : BaseActivity(), ItemClickListener {
     }
 
     private fun setupRecyclerView() {
-
         binding?.rVMainHorizontial?.apply {
             this.adapter = AddNewsAdapter(list)
         }
