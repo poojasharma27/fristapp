@@ -33,6 +33,8 @@
                 android:layout_below="@id/backArrow"
                 android:src="@drawable/img_girlres_background" />
 
+
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -179,6 +181,9 @@
             android:background="@drawable/forword_back_arrow_drawable"
             android:padding="12dp"
             android:src="@drawable/ic_baseline_arrow_forward_24" />
+
+        
+
     </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>
