@@ -47,7 +47,6 @@ class NewsFragment : BaseActivity(), ItemClickListener {
 
         //setup  news recyclerView
         setupRecyclerView()
-
         //making the news api calls
         getNews()
 
