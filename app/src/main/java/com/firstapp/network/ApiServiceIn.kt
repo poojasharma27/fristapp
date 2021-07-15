@@ -11,7 +11,7 @@ interface ApiServiceIn {
   fun signIn(@Query("mobile") mobile: String,@Query("password") password : String): Call<LoginResponce>
 */
   @GET("everything")
-  fun news(@Query("q") q: String, @Query("from") from : Int, @Query("sortBy") sortBy : String, @Query("apiKey") apiKey : String): Call<NewsResponse>
+  fun news(@Query("q") q: String, @Query("from") from : Int, @Query("sortBy") sortBy : String, @Query("apiKey") apiKey : String,@Query("pageSize") pageSize:Int): Call<NewsResponse>
 
 
 }

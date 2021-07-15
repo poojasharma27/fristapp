@@ -2,7 +2,6 @@ package com.firstapp.util
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.widget.Toast
 
 fun showToastLong(context: Context?, msg: String) {
@@ -16,8 +15,9 @@ fun showToastShort(context: Context, msg: String) {
     Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 }
 
-fun isInternetAvailable(context: Context): Boolean {
-    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+/*
+fun isInternetAvailable(context: Context?): Boolean {
+    val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetwork = connectivityManager.activeNetwork
     connectivityManager.getNetworkCapabilities(activeNetwork)?.run {
         when {
@@ -29,5 +29,11 @@ fun isInternetAvailable(context: Context): Boolean {
     }
     return false
 }
+*/
 
 
+fun isInternetAvailable(context: Context?):Boolean{
+    val connectivityManager =context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetworkInfo = connectivityManager.activeNetworkInfo
+    return activeNetworkInfo != null && activeNetworkInfo.isConnected
+}

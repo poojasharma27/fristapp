@@ -21,7 +21,7 @@ interface UserDetailsDao {
      suspend fun addMultipleDetails(vararg userEntity: UserEntity)
 
      @Insert
-     suspend fun addArticle(articleEntity: ArticleEntity)
+     suspend fun addArticle(articleEntity:List<ArticleEntity>)
 
      @Query("SELECT * FROM ArticleEntity ORDER BY newsId DESC ")
      suspend fun  getArticleEntity(): List<ArticleEntity>

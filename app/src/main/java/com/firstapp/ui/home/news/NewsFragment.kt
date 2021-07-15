@@ -24,11 +24,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsFragment : BaseActivity(), ItemClickListener {
+class NewsFragment : BaseActivity(),ItemClickListener {
     private var binding: FragmentAddNewsBinding? = null
     private var addNewsAdapter: AddNewsAdapter? = null
     private var recommendedAdapter: RecommendedAdapter? = null
-    private var list: ArrayList<Article> = ArrayList<Article>()
+    private var list: ArrayList<Article> = ArrayList()
+    private var listArticleEntity: ArrayList<ArticleEntity> = ArrayList<ArticleEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,18 +58,67 @@ class NewsFragment : BaseActivity(), ItemClickListener {
         binding?.rVMainHorizontial?.apply {
             this.adapter = AddNewsAdapter(list)
         }
+        if(isInternetAvailable(activity as? Context)) {
 
-    binding?.rVSecondVertical?.apply {
-            this.adapter = RecommendedAdapter(list,activity, object : ItemClickListener{
-                override fun onViewClicked(view: View, position: Int) {
-                    TODO("Not yet implemented")
+            binding?.rVSecondVertical?.apply {
+
+                this.adapter = RecommendedAdapter(list, activity, object : ItemClickListener {
+                    override fun onViewClicked(view: View, position: Int) {
+                        val newsDescriptionFragment = NewsDescriptionFragment()
+                        val fragmentManager = activity?.supportFragmentManager
+                        val fragmentTransaction = fragmentManager?.beginTransaction()
+                        val bundle = Bundle()
+                        bundle.putParcelable(ExtrasConstants.Users.name, list[position])
+                        newsDescriptionFragment.arguments = bundle
+                        fragmentTransaction?.replace(R.id.flMain, newsDescriptionFragment)
+                        fragmentTransaction?.addToBackStack("null")
+                        fragmentTransaction?.commit()
+                    }
+
+                    override fun OnSaveClicked(view: View, article: Article) {
+                       /* val articleEntity = ArticleEntity(
+                            author = article.author,
+                            content = article.content,
+                            description = article.description,
+                            publishedAt = article.publishedAt,
+                            title = article.title,
+                            url = article.url,
+                            urlToImage = article.urlToImage
+                        )
+
+                        launch {
+                            context?.let {
+                                val articleEntity = AppDataBase.invoke(it).userDetailsDao()
+                                    .addArticle(articleEntity)
+                                Log.d("articleEntity", articleEntity.toString())
+
+                            }
+                        }*/
+                    }
+
+                })
+             launch {
+                    context?.let {
+                        val articleEntity = AppDataBase.invoke(it).userDetailsDao()
+                            .addArticle(list)
+                        Log.d("articleEntity", articleEntity.toString())
+
+                    }
                 }
+            }
+           /* listArticleEntity.map {
+                ArticleEntity(it.author,it.content,it.description,it.publishedAt,it.title,it.url,it.urlToImage)*/
 
-                override fun OnSaveClicked(view: View, article: Article) {
-                    TODO("Not yet implemented")
+        }else{
+            launch {
+                context?.let {
+                  val  articleEntity=   AppDataBase.invoke(it).userDetailsDao().getArticleEntity()
+                    Log.d("articleEntity",articleEntity.toString())
+                    binding?.rVSecondVertical?.apply {
+                        this.adapter= BookMarkAdapter(articleEntity,this@NewsFragment)
+                    }
                 }
-
-            })
+            }
         }
 
     }
@@ -119,42 +169,65 @@ class NewsFragment : BaseActivity(), ItemClickListener {
 //
 //    */
     private fun setRecommendList(list: List<Article>) {
-        recommendedAdapter = RecommendedAdapter(list, activity as? Context, this)
-        binding?.rVSecondVertical?.adapter = recommendedAdapter
+
+        this.list.addAll(list)
+        binding?.rVSecondVertical?.adapter ?.notifyDataSetChanged()
     }
 
     override fun onViewClicked(view: View, position: Int) {
-        val newsDescriptionFragment = NewsDescriptionFragment()
-        val fragmentManager = activity?.supportFragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
-        val bundle = Bundle()
-        bundle.putParcelable(ExtrasConstants.Users.name, list[position])
-        newsDescriptionFragment.arguments = bundle
-        fragmentTransaction?.replace(R.id.flMain, newsDescriptionFragment)
-        fragmentTransaction?.addToBackStack("null")
-        fragmentTransaction?.commit()
+        TODO("Not yet implemented")
     }
 
     override fun OnSaveClicked(view: View, article: Article) {
-        val articleEntity = ArticleEntity(
-            author = article.author,
-            content = article.content,
-            description = article.description,
-            publishedAt = article.publishedAt,
-            title = article.title,
-            url = article.url,
-            urlToImage = article.urlToImage
-        )
-        launch {
-            context?.let {
-              val articleEntity= AppDataBase.invoke(it).userDetailsDao().addArticle(articleEntity)
-                Log.d("articleEntity",articleEntity.toString())
-
-            }
-        }
-
-
+        TODO("Not yet implemented")
     }
 
+    /* override fun onViewClicked(view: View, position: Int) {
+         val newsDescriptionFragment = NewsDescriptionFragment()
+         val fragmentManager = activity?.supportFragmentManager
+         val fragmentTransaction = fragmentManager?.beginTransaction()
+         val bundle = Bundle()
+         bundle.putParcelable(ExtrasConstants.Users.name, list[position])
+         newsDescriptionFragment.arguments = bundle
+         fragmentTransaction?.replace(R.id.flMain, newsDescriptionFragment)
+         fragmentTransaction?.addToBackStack("null")
+         fragmentTransaction?.commit()
+     }
+
+     override fun OnSaveClicked(view: View, article: Article) {
+         val articleEntity = ArticleEntity(
+             author = article.author,
+             content = article.content,
+             description = article.description,
+             publishedAt = article.publishedAt,
+             title = article.title,
+             url = article.url,
+             urlToImage = article.urlToImage
+         )
+         launch {
+             context?.let {
+               val articleEntity= AppDataBase.invoke(it).userDetailsDao().addArticle(articleEntity)
+                 Log.d("articleEntity",articleEntity.toString())
+
+             }
+         }
+
+
+     }*/
+  /* fun isInternetAvailable(): Boolean {
+       val connectivityManager =activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+       val activeNetwork = connectivityManager.activeNetwork
+       connectivityManager.getNetworkCapabilities(activeNetwork)?.run {
+           when {
+               hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+               hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+               hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+               else -> false
+           }
+       }
+       return false
+   }*/
 
 }
+
+
