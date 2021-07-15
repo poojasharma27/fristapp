@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.firstapp.R
 import com.firstapp.base.BaseActivity
 import com.firstapp.databinding.FragmentAddNewsBinding
@@ -16,8 +15,10 @@ import com.firstapp.network.ApiServiceIn
 import com.firstapp.network.ApiServices
 import com.firstapp.network.model.Article
 import com.firstapp.network.model.NewsResponse
+import com.firstapp.ui.home.bookmarked.BookMarkAdapter
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.ItemClickListener
+import com.firstapp.util.isInternetAvailable
 import com.firstapp.util.showToastLong
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -47,6 +48,7 @@ class NewsFragment : BaseActivity(),ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         //setup  news recyclerView
+
         setupRecyclerViews()
         //making the news api calls
         getNews()
@@ -121,6 +123,7 @@ class NewsFragment : BaseActivity(),ItemClickListener {
             }
         }
 
+
     }
 
     private fun getNews() {
@@ -131,7 +134,7 @@ class NewsFragment : BaseActivity(),ItemClickListener {
                 "tesla",
                 2021 - 6 - 7,
                 "publishedAt",
-                "ef10af13e36045b4a965734696d81186"
+                "ef10af13e36045b4a965734696d81186",10
             )
         call.enqueue(object : Callback<NewsResponse> {
 
@@ -164,10 +167,7 @@ class NewsFragment : BaseActivity(),ItemClickListener {
         binding?.rVMainHorizontial?.adapter?.notifyDataSetChanged()
     }
 
-    //    /*
-//    TODO Note add Interface call and recyclerview set
-//
-//    */
+
     private fun setRecommendList(list: List<Article>) {
 
         this.list.addAll(list)
