@@ -17,17 +17,12 @@ fun showToastShort(context: Context, msg: String) {
     Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 }
 
-/*fun isInternetAvailable(context: Context): Boolean {
+/*
+fun isInternetAvailable(context: Context): Boolean {
     val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetworkInfo = connectivityManager.activeNetwork
     return activeNetworkInfo != null && activeNetworkInfo.isConnected
-}*/
+}
+*/
 
 
-/*private fun isNetworkAvailable(context: Context): Boolean {
-    val connectivityManager =context.getSystemService(Context.CONNECTIVITY_SERVICE)
-    return if (connectivityManager is ConnectivityManager) {
-        val networkInfo = connectivityManager.activeNetwork
-        networkInfo?. ?: false
-    } else false
-}*/
