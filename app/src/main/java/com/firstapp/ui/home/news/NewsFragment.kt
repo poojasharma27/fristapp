@@ -53,14 +53,13 @@ class NewsFragment : BaseActivity(),ItemClickListener {
     }
 
     private fun setupRecyclerViews() {
+        if(isInternetAvailable(activity as? Context)) {
 
         binding?.rVMainHorizontial?.apply {
             this.adapter = AddNewsAdapter(list)
         }
-        if(isInternetAvailable(activity as? Context)) {
 
             binding?.rVSecondVertical?.apply {
-
                 this.adapter = RecommendedAdapter(list, activity, object : ItemClickListener {
                     override fun onViewClicked(view: View, position: Int) {
                         val newsDescriptionFragment = NewsDescriptionFragment()
@@ -96,21 +95,7 @@ class NewsFragment : BaseActivity(),ItemClickListener {
                     }
 
                 })
-             launch {
-                 val articleEntityList = mutableListOf<ArticleEntity>()
 
-                 for(item in list){
-                     articleEntityList.add(item.toArticleEntity())
-                 }
-
-                 context?.let {
-                        val articleEntity = AppDataBase.invoke(it).userDetailsDao()
-                            .addArticle(articleEntityList)
-
-                        Log.d("articleEntity", articleEntity.toString())
-
-                    }
-                }
             }
            /* listArticleEntity.map {
                 ArticleEntity(it.author,it.content,it.description,it.publishedAt,it.title,it.url,it.urlToImage)*/
@@ -123,6 +108,11 @@ class NewsFragment : BaseActivity(),ItemClickListener {
                     binding?.rVSecondVertical?.apply {
                         this.adapter= BookMarkAdapter(articleEntity,this@NewsFragment)
                     }
+                    binding?.rVMainHorizontial?.apply {
+                        this.adapter = NewsEntityAdapter(articleEntity)
+
+                    }
+
                 }
             }
         }
@@ -168,13 +158,38 @@ class NewsFragment : BaseActivity(),ItemClickListener {
 
     private fun setNewsList(list: List<Article>) {
         this.list.addAll(list)
+        launch {
+            val articleEntityList = mutableListOf<ArticleEntity>()
+            for(item in list){
+                articleEntityList.add(item.toArticleEntity())
+            }
+            context?.let {
+                val articleEntity = AppDataBase.invoke(it).userDetailsDao()
+                    .addArticle(articleEntityList)
+
+                Log.d("articleEntity", articleEntity.toString())
+
+            }
+        }
         binding?.rVMainHorizontial?.adapter?.notifyDataSetChanged()
     }
 
 
     private fun setRecommendList(list: List<Article>) {
-
         this.list.addAll(list)
+        launch {
+            val articleEntityList = mutableListOf<ArticleEntity>()
+            for(item in list){
+                articleEntityList.add(item.toArticleEntity())
+            }
+            context?.let {
+                val articleEntity = AppDataBase.invoke(it).userDetailsDao()
+                    .addArticle(articleEntityList)
+
+                Log.d("articleEntity", articleEntity.toString())
+
+            }
+        }
         binding?.rVSecondVertical?.adapter ?.notifyDataSetChanged()
     }
 
