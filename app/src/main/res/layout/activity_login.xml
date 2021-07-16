@@ -14,7 +14,7 @@
         <RelativeLayout
             android:id="@+id/rlmain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="424dp"
             android:background="#D2E4FA"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -41,7 +41,7 @@
             android:id="@+id/rsecond"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="390dp"
             android:background="@drawable/welcome_background_drawble">
 
 
@@ -49,8 +49,8 @@
                 android:id="@+id/tvwelcomeback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin16"
-                android:layout_marginTop="@dimen/margin16"
+                android:layout_marginStart="@dimen/margin24"
+                android:layout_marginTop="@dimen/margin24"
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="@string/welcome_back"
                 android:textColor="@color/black"
@@ -61,8 +61,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvwelcomeback"
-                android:layout_marginStart="@dimen/margin16"
-                android:layout_marginTop="@dimen/margin8"
+                android:layout_marginStart="@dimen/margin24"
+                android:layout_marginTop="@dimen/margin24"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="@string/login_to_your_account"
                 android:textColor="@color/blue"
@@ -123,8 +123,10 @@
 
             <TextView
                 android:id="@+id/loginbtn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_below="@id/tvforgot"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/margin16"
