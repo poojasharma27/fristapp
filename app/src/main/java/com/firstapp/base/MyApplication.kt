@@ -8,7 +8,7 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.firstapp.BuildConfig
-import kotlinx.coroutines.Job
+import com.firstapp.util.ConnectivityReceiver
 
 
 class MyApplication : Application() {
@@ -22,7 +22,9 @@ class MyApplication : Application() {
         fun getAppContext(): Context {
             return instance!!.applicationContext
         }
-    }
+
+
+ }
 
     override fun onCreate() {
         super.onCreate()
@@ -37,6 +39,8 @@ class MyApplication : Application() {
 
     }
 
-
-
+  /*  fun setConnectivityListener(listener: ConnectivityReceiverListener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener
+    }
+*/
 }

@@ -81,6 +81,10 @@ class NewsFragment : BaseActivity(),ItemClickListener {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        getNews()
+    }
     private fun setupRecyclerViews() {
         if(isInternetAvailable(activity as? Context)) {
 
