@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
 import com.firstapp.base.BaseActivity
 import com.firstapp.databinding.FragmentAddNewsBinding
@@ -24,10 +26,13 @@ import retrofit2.Response
 
 class NewsFragment : BaseActivity(),ItemClickListener {
     private var binding: FragmentAddNewsBinding? = null
-    private var addNewsAdapter: AddNewsAdapter? = null
-    private var recommendedAdapter: RecommendedAdapter? = null
     private var list: ArrayList<Article> = ArrayList()
-    private var listArticleEntity: ArrayList<ArticleEntity> = ArrayList<ArticleEntity>()
+    private var isLoading: Boolean = false
+    private  var  linearLayoutManager:LinearLayoutManager? = null
+    var visibleItem: Int? = null
+    var scrollItem : Int? = null
+    var totalItem : Int? = null
+    var pageCount=1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +42,7 @@ class NewsFragment : BaseActivity(),ItemClickListener {
 
         binding = FragmentAddNewsBinding.inflate(inflater, container, false)
         val view = binding?.root
+        //attaches scrollListener with RecyclerView
 
         return view
     }
@@ -45,10 +51,33 @@ class NewsFragment : BaseActivity(),ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         //setup  news recyclerView
-
+        linearLayoutManager =LinearLayoutManager(context)
         setupRecyclerViews()
         //making the news api calls
         getNews()
+        binding?.rVSecondVertical?.addOnScrollListener(object : RecyclerView.OnScrollListener()
+        {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if(dy >= 0) {
+                    visibleItem = linearLayoutManager?.childCount
+                    totalItem = linearLayoutManager?.itemCount
+                    scrollItem = linearLayoutManager?.findFirstCompletelyVisibleItemPosition()
+                    if (isLoading) {
+                        if (scrollItem?.let { visibleItem?.plus(it)!! >= totalItem!! } == true && scrollItem!! >= 0){
+                            isLoading==false
+                            pageCount.inc()
+                            getNews()
+                            Log.d("page",pageCount.toString())
+                            isLoading==true
+
+                        }
+
+                    }
+                }
+            }
+
+        })
 
     }
 
@@ -173,8 +202,7 @@ class NewsFragment : BaseActivity(),ItemClickListener {
         }
         binding?.rVMainHorizontial?.adapter?.notifyDataSetChanged()
     }
-
-
+    
     private fun setRecommendList(list: List<Article>) {
         this.list.addAll(list)
         launch {

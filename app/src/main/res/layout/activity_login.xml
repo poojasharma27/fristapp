@@ -28,7 +28,7 @@
 
             <ImageView
                 android:id="@+id/ivbackground"
-                android:layout_width="500dp"
+                android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:layout_below="@id/backArrow"
                 android:src="@drawable/img_girlres_background" />
@@ -130,11 +130,9 @@
                 android:layout_below="@id/tvforgot"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/margin16"
+                android:gravity="center"
+                android:padding="8dp"
                 android:background="@drawable/button_curve_drawble"
-                android:paddingLeft="150dp"
-                android:paddingTop="@dimen/margin16"
-                android:paddingRight="150dp"
-                android:paddingBottom="@dimen/margin16"
                 android:text="@string/login"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textsize16" />
