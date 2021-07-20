@@ -72,7 +72,7 @@ class DashboardActivity : AppCompatActivity() {
         filter.addAction(Intent.ACTION_POWER_CONNECTED)
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED)*/
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            registerReceiver(
+         this . registerReceiver(
                 broadCastReceiver,
                 IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
             )
