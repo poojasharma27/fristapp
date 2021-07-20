@@ -80,7 +80,6 @@ class NewsFragment : BaseActivity(),ItemClickListener {
         })
 
     }
-
     override fun onPause() {
         super.onPause()
         getNews()
