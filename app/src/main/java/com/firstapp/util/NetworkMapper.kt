@@ -16,3 +16,18 @@ fun Article.toArticleEntity() : ArticleEntity{
     )
     return articleEntity
 }
+
+
+fun ArticleEntity.toArticle() : Article{
+    val article = Article(
+        this.author?:"author not found",
+        this.content,
+        this.description,
+        this.publishedAt,
+        null,
+        this.title,
+        this.url,
+        this.urlToImage
+    )
+    return article
+}

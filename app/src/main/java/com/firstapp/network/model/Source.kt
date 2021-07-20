@@ -4,13 +4,13 @@ package com.firstapp.network.model
 import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class Source(
-  /*  @Json(name = "id")
-    val id: String= "11",*/
+    @Json(name = "id")
+    val id: String? ,
     @Json(name = "name")
     val name: String
-): Parcelable
+) : Parcelable
