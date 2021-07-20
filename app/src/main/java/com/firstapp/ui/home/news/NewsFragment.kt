@@ -1,6 +1,7 @@
 package com.firstapp.ui.home.news
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,55 +25,65 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsFragment : BaseActivity(),ItemClickListener {
+class NewsFragment : BaseActivity(), ItemClickListener {
     private var binding: FragmentAddNewsBinding? = null
     private var list: ArrayList<Article> = ArrayList()
-    private var isLoading: Boolean = false
-    private  var  linearLayoutManager:LinearLayoutManager? = null
+    private var isLoading: Boolean = true
     var visibleItem: Int? = null
-    var scrollItem : Int? = null
-    var totalItem : Int? = null
-    var pageCount=1
+    var scrollItem: Int? = null
+    var totalItem: Int? = null
+    var pageCount = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentAddNewsBinding.inflate(inflater, container, false)
-        val view = binding?.root
-        //attaches scrollListener with RecyclerView
-
-        return view
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        //setup  news recyclerView
-        linearLayoutManager =LinearLayoutManager(context)
         setupRecyclerViews()
         //making the news api calls
         getNews()
-        binding?.rVSecondVertical?.addOnScrollListener(object : RecyclerView.OnScrollListener()
-        {
+    }
+
+    private fun setupRecyclerViews() {
+        binding?.rVMainHorizontial?.apply {
+            this.adapter = AddNewsAdapter(list)
+        }
+
+        binding?.rVSecondVertical?.apply {
+            this.adapter = RecommendedAdapter(list, activity, object : ItemClickListener {
+                override fun onViewClicked(view: View, position: Int) {
+                    openNewsDetail(position)
+                }
+
+                override fun OnSaveClicked(view: View, article: Article) {
+
+                }
+            })
+        }
+
+        binding?.rVSecondVertical?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if(dy >= 0) {
-                    visibleItem = linearLayoutManager?.childCount
-                    totalItem = linearLayoutManager?.itemCount
-                    scrollItem = linearLayoutManager?.findFirstCompletelyVisibleItemPosition()
+                if (dy >= 0) {
+
+                    visibleItem = binding?.rVSecondVertical?.layoutManager?.childCount
+                    totalItem = binding?.rVSecondVertical?.layoutManager?.itemCount
+                    scrollItem =
+                        (binding?.rVSecondVertical?.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()
                     if (isLoading) {
-                        if (scrollItem?.let { visibleItem?.plus(it)!! >= totalItem!! } == true && scrollItem!! >= 0){
-                            isLoading==false
+                        if (scrollItem?.let { visibleItem?.plus(it)!! >= totalItem!! } == true && scrollItem!! >= 0) {
+                            isLoading = false
                             pageCount.inc()
                             getNews()
-                            Log.d("page",pageCount.toString())
-                            isLoading==true
+                            Log.d("page", pageCount.toString())
 
                         }
-
                     }
                 }
             }
@@ -81,107 +92,95 @@ class NewsFragment : BaseActivity(),ItemClickListener {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        getNews()
+    private fun openNewsDetail(position: Int) {
+        val newsDescriptionFragment = NewsDescriptionFragment()
+
+        //setup frgament Data
+        val bundle = Bundle()
+        bundle.putParcelable(ExtrasConstants.Users.name, list[position])
+
+        newsDescriptionFragment.arguments = bundle
+
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.flMain, newsDescriptionFragment)
+            ?.addToBackStack("null")?.commit()
     }
-    private fun setupRecyclerViews() {
-        if(isInternetAvailable(activity as? Context)) {
 
-        binding?.rVMainHorizontial?.apply {
-            this.adapter = AddNewsAdapter(list)
-        }
-
-            binding?.rVSecondVertical?.apply {
-                this.adapter = RecommendedAdapter(list, activity, object : ItemClickListener {
-                    override fun onViewClicked(view: View, position: Int) {
-                        val newsDescriptionFragment = NewsDescriptionFragment()
-                        val fragmentManager = activity?.supportFragmentManager
-                        val fragmentTransaction = fragmentManager?.beginTransaction()
-                        val bundle = Bundle()
-                        bundle.putParcelable(ExtrasConstants.Users.name, list[position])
-                        newsDescriptionFragment.arguments = bundle
-                        fragmentTransaction?.replace(R.id.flMain, newsDescriptionFragment)
-                        fragmentTransaction?.addToBackStack("null")
-                        fragmentTransaction?.commit()
-                    }
-
-                    override fun OnSaveClicked(view: View, article: Article) {
-                       /* val articleEntity = ArticleEntity(
-                            author = article.author,
-                            content = article.content,
-                            description = article.description,
-                            publishedAt = article.publishedAt,
-                            title = article.title,
-                            url = article.url,
-                            urlToImage = article.urlToImage
-                        )
-
-                        launch {
-                            context?.let {
-                                val articleEntity = AppDataBase.invoke(it).userDetailsDao()
-                                    .addArticle(articleEntity)
-                                Log.d("articleEntity", articleEntity.toString())
-
-                            }
-                        }*/
-                    }
-
-                })
-
-            }
-           /* listArticleEntity.map {
-                ArticleEntity(it.author,it.content,it.description,it.publishedAt,it.title,it.url,it.urlToImage)*/
-
-        }else{
-            launch {
-                context?.let {
-                  val  articleEntity=   AppDataBase.invoke(it).userDetailsDao().getArticleEntity()
-                    Log.d("articleEntity",articleEntity.toString())
-                    binding?.rVSecondVertical?.apply {
-                        this.adapter= BookMarkAdapter(articleEntity,this@NewsFragment)
-                    }
-                    binding?.rVMainHorizontial?.apply {
-                        this.adapter = NewsEntityAdapter(articleEntity)
-
-                    }
-
-                }
-            }
-        }
-
-
-    }
 
     private fun getNews() {
+        if (isInternetAvailable(activity as? Context)) {
+            broadcastNetworkStatus(connected)
+            getNewsFromNetwork()
+        } else {
+           // showToastLong(activity, "Internet not available")
+            broadcastNetworkStatus(disconnected)
+            getNewsFromDb()
+        }
+
+    }
+
+    private fun broadcastNetworkStatus(status : String) {
+        Intent().also { intent ->
+            intent.action = status
+            intent.putExtra("data", "Nothing to see here, move along.")
+            activity?.sendBroadcast(intent)
+        }
+    }
+
+    private fun getNewsFromDb() {
+        launch {
+            context?.let {
+                val articleEntity = AppDataBase.invoke(it).userDetailsDao().getArticleEntity()
+                val articleList = mutableListOf<Article>()
+                Log.d("articleEntity", articleEntity.toString())
+
+                articleList.addAll(articleEntity.map {
+                    it.toArticle()
+                })
+
+                binding?.rVSecondVertical?.apply {
+                    this.adapter = BookMarkAdapter(articleList, this@NewsFragment)
+                }
+                binding?.rVMainHorizontial?.apply {
+                    this.adapter = NewsEntityAdapter(articleList)
+                }
+
+            }
+        }
+    }
+
+    private fun getNewsFromNetwork() {
         val apiServiceIn =
-            ApiServices.getRetrofitInstance().create(ApiServiceIn::class.java)
+            ApiServices.createInstance().create(ApiServiceIn::class.java)
         val call: Call<NewsResponse> =
             apiServiceIn.news(
                 "tesla",
                 2021 - 6 - 7,
                 "publishedAt",
-                "ef10af13e36045b4a965734696d81186",10
+                "ef10af13e36045b4a965734696d81186", 10
             )
         call.enqueue(object : Callback<NewsResponse> {
 
 
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
+                isLoading = true
                 if (response.isSuccessful) {
 
                     response.body()?.let {
-                        setNewsList(it.articles)
-                        setRecommendList(it.articles)
-                    }
+                        list.addAll(it.articles)
 
+                        updateNewsRecyclerVIew()
+                        updateDb()
+                        setRecommendList()
+                    }
                     Log.d("moshi", "success")
 
                 }
             }
 
-
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
                 showToastLong(activity, "error")
+                isLoading = true
                 Log.d("moshi", "error")
             }
 
@@ -189,11 +188,10 @@ class NewsFragment : BaseActivity(),ItemClickListener {
         })
     }
 
-    private fun setNewsList(list: List<Article>) {
-        this.list.addAll(list)
+    private fun updateDb() {
         launch {
             val articleEntityList = mutableListOf<ArticleEntity>()
-            for(item in list){
+            for (item in list) {
                 articleEntityList.add(item.toArticleEntity())
             }
             context?.let {
@@ -201,17 +199,19 @@ class NewsFragment : BaseActivity(),ItemClickListener {
                     .addArticle(articleEntityList)
 
                 Log.d("articleEntity", articleEntity.toString())
-
             }
         }
+    }
+
+    private fun updateNewsRecyclerVIew() {
         binding?.rVMainHorizontial?.adapter?.notifyDataSetChanged()
     }
-    
-    private fun setRecommendList(list: List<Article>) {
-        this.list.addAll(list)
+
+
+    private fun setRecommendList() {
         launch {
             val articleEntityList = mutableListOf<ArticleEntity>()
-            for(item in list){
+            for (item in list) {
                 articleEntityList.add(item.toArticleEntity())
             }
             context?.let {
@@ -222,7 +222,7 @@ class NewsFragment : BaseActivity(),ItemClickListener {
 
             }
         }
-        binding?.rVSecondVertical?.adapter ?.notifyDataSetChanged()
+        binding?.rVSecondVertical?.adapter?.notifyDataSetChanged()
     }
 
     override fun onViewClicked(view: View, position: Int) {
@@ -265,19 +265,19 @@ class NewsFragment : BaseActivity(),ItemClickListener {
 
 
      }*/
-  /* fun isInternetAvailable(): Boolean {
-       val connectivityManager =activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-       val activeNetwork = connectivityManager.activeNetwork
-       connectivityManager.getNetworkCapabilities(activeNetwork)?.run {
-           when {
-               hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-               hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-               hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-               else -> false
-           }
-       }
-       return false
-   }*/
+    /* fun isInternetAvailable(): Boolean {
+         val connectivityManager =activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+         val activeNetwork = connectivityManager.activeNetwork
+         connectivityManager.getNetworkCapabilities(activeNetwork)?.run {
+             when {
+                 hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                 hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                 hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                 else -> false
+             }
+         }
+         return false
+     }*/
 
 }
 

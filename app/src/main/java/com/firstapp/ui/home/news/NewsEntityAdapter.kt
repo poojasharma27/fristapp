@@ -7,8 +7,9 @@ import com.bumptech.glide.Glide
 import com.firstapp.R
 import com.firstapp.databinding.ItemAddNewsRowBinding
 import com.firstapp.db.entities.ArticleEntity
+import com.firstapp.network.model.Article
 
-class NewsEntityAdapter(val list:List<ArticleEntity>) : RecyclerView.Adapter<NewsEntityAdapter.ViewHolder>() {
+class NewsEntityAdapter(val list:List<Article>) : RecyclerView.Adapter<NewsEntityAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding= ItemAddNewsRowBinding.inflate(LayoutInflater.from(parent.context),parent,false)

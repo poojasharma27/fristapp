@@ -85,6 +85,7 @@
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/montserrat_regular"
                     android:hint="@string/email"
+                    android:text="a@g.com"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,6 +107,7 @@
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/montserrat_regular"
                     android:hint="@string/password"
+                    android:text="123"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 

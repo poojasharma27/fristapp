@@ -3,12 +3,14 @@ package com.firstapp.util
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+
+const val connected = "INTERNET_CONNECTED"
+const val disconnected = "INTERNET_DISCONNECTED"
+
+class ConnectivityReceiver : BroadcastReceiver() {
 
 
-open class ConnectivityReceiver : BroadcastReceiver() {
-
-
+/*
     override fun onReceive(context: Context?, intent: Intent?) {
         if (isInternetAvailable(context)){
             showToastLong(context,"NetworkAvailable")
@@ -18,6 +20,16 @@ open class ConnectivityReceiver : BroadcastReceiver() {
             Log.d("NetworkStatus","NetworkNotAvailable")
 
         }
+    }*/
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        intent?.let {
+            when (intent.action) {
+                connected -> showToastLong(context, "Broadcasting : Network Available")
+                disconnected -> showToastLong(context, "Broadcast : Network Not Available")
+            }
+        }
+
     }
 
     /* companion object {
