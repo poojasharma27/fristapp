@@ -3,7 +3,7 @@ package com.firstapp.util
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-
+import android.util.Log
 
 
 open class ConnectivityReceiver : BroadcastReceiver() {
@@ -12,8 +12,10 @@ open class ConnectivityReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (isInternetAvailable(context)){
             showToastLong(context,"NetworkAvailable")
+            Log.d("NetworkStatus","NetworkAvailable")
         }else{
             showToastLong(context,"NetworkNotAvailable")
+            Log.d("NetworkStatus","NetworkNotAvailable")
 
         }
     }

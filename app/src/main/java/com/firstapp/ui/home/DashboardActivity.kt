@@ -3,10 +3,12 @@ package com.firstapp.ui.home
 
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.firstapp.R
 import com.firstapp.network.model.User
 import com.firstapp.ui.home.bookmarked.BookMarkFragment
@@ -21,7 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class DashboardActivity : AppCompatActivity() {
     private var bottomNavigationView: BottomNavigationView? = null
     private lateinit var sessionManagement: SessionManagement
-   private lateinit var broadCastReceiver: ConnectivityReceiver
+    private lateinit var broadCastReceiver: ConnectivityReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
@@ -55,7 +57,7 @@ class DashboardActivity : AppCompatActivity() {
             }
             true
         }
-     registerNetwork()
+        registerNetwork()
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
@@ -64,11 +66,23 @@ class DashboardActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
         transaction.commit()
     }
-    protected fun registerNetwork(){
-            registerReceiver(broadCastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
+    protected fun registerNetwork() {
+        /*val filter =IntentFilter()
+        filter.addAction(Intent.ACTION_POWER_CONNECTED)
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED)*/
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            registerReceiver(
+                broadCastReceiver,
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+            )
+        }
+       /* IntentFilter(Intent.ACTION_POWER_CONNECTED).also {
+            registerReceiver(broadCastReceiver,it)
+        }*/
     }
-    protected fun unRegisterNetwork(){
+
+    protected fun unRegisterNetwork() {
         unregisterReceiver(broadCastReceiver)
     }
 
