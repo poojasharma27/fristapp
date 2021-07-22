@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     tools:context=".ui.register.LoginActivity">
-
-    <RelativeLayout
+<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -180,7 +179,7 @@
             android:layout_marginStart="@dimen/margin10"
             android:layout_marginTop="-30dp"
             android:layout_marginEnd="@dimen/margin30"
-            android:background="@drawable/forword_back_arrow_drawable"
+            android:background="@drawable/forward_back_arrow_drawable"
             android:padding="12dp"
             android:src="@drawable/ic_baseline_arrow_forward_24" />
 

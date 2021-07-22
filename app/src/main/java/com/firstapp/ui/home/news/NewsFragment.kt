@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firstapp.R
-import com.firstapp.base.BaseActivity
+import com.firstapp.base.BaseFragment
 import com.firstapp.databinding.FragmentAddNewsBinding
 import com.firstapp.db.AppDataBase
 import com.firstapp.db.entities.ArticleEntity
@@ -18,22 +20,23 @@ import com.firstapp.network.ApiServiceIn
 import com.firstapp.network.ApiServices
 import com.firstapp.network.model.Article
 import com.firstapp.network.model.NewsResponse
-import com.firstapp.ui.home.bookmarked.BookMarkAdapter
 import com.firstapp.util.*
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NewsFragment : BaseActivity(), ItemClickListener {
+class NewsFragment : BaseFragment(), ItemClickListener {
     private var binding: FragmentAddNewsBinding? = null
     private var list: ArrayList<Article> = ArrayList()
     private var isLoading: Boolean = true
     var visibleItem: Int? = null
     var scrollItem: Int? = null
     var totalItem: Int? = null
+    lateinit var centralProgressBar: ProgressBar
+    lateinit var bottomProgressBar: ProgressBar
     var pageCount = 1
-
+   lateinit var fragmentClickListener: FragmentClickListener
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,7 +49,12 @@ class NewsFragment : BaseActivity(), ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerViews()
-        //making the news api calls
+        //making the news api cal
+        fragmentClickListener=activity as FragmentClickListener
+        centralProgressBar = view.findViewById(R.id.centralPB)
+        bottomProgressBar = view.findViewById(R.id.bottomPB)
+
+        // Add ProgressBar to our layout
         getNews()
     }
 
@@ -56,7 +64,7 @@ class NewsFragment : BaseActivity(), ItemClickListener {
         }
 
         binding?.rVSecondVertical?.apply {
-            this.adapter = RecommendedAdapter(list, activity, object : ItemClickListener {
+            this.adapter = RecommendedAdapter(list, object : ItemClickListener {
                 override fun onViewClicked(view: View, position: Int) {
                     openNewsDetail(position)
                 }
@@ -71,16 +79,17 @@ class NewsFragment : BaseActivity(), ItemClickListener {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy >= 0) {
-
                     visibleItem = binding?.rVSecondVertical?.layoutManager?.childCount
                     totalItem = binding?.rVSecondVertical?.layoutManager?.itemCount
                     scrollItem =
                         (binding?.rVSecondVertical?.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()
                     if (isLoading) {
+                     binding?.bottomPB ?.visibility=View.VISIBLE
                         if (scrollItem?.let { visibleItem?.plus(it)!! >= totalItem!! } == true && scrollItem!! >= 0) {
                             isLoading = false
                             pageCount.inc()
                             getNews()
+                            binding?.bottomPB ?.visibility=View.GONE
                             Log.d("page", pageCount.toString())
 
                         }
@@ -94,16 +103,12 @@ class NewsFragment : BaseActivity(), ItemClickListener {
 
     private fun openNewsDetail(position: Int) {
         val newsDescriptionFragment = NewsDescriptionFragment()
-
         //setup frgament Data
         val bundle = Bundle()
         bundle.putParcelable(ExtrasConstants.Users.name, list[position])
-
         newsDescriptionFragment.arguments = bundle
+         fragmentClickListener.onFragmentTransaction(newsDescriptionFragment)
 
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.flMain, newsDescriptionFragment)
-            ?.addToBackStack("null")?.commit()
     }
 
 
@@ -131,18 +136,22 @@ class NewsFragment : BaseActivity(), ItemClickListener {
         launch {
             context?.let {
                 val articleEntity = AppDataBase.invoke(it).userDetailsDao().getArticleEntity()
-                val articleList = mutableListOf<Article>()
+                val articleList = ArrayList<Article>()
                 Log.d("articleEntity", articleEntity.toString())
 
                 articleList.addAll(articleEntity.map {
                     it.toArticle()
                 })
+                centralProgressBar.visibility =View.GONE
 
                 binding?.rVSecondVertical?.apply {
-                    this.adapter = BookMarkAdapter(articleList, this@NewsFragment)
+
+                        this.adapter = RecommendedAdapter(articleList,this@NewsFragment)
+
+
                 }
                 binding?.rVMainHorizontial?.apply {
-                    this.adapter = NewsEntityAdapter(articleList)
+                    this.adapter = AddNewsAdapter(articleList)
                 }
 
             }
@@ -165,7 +174,8 @@ class NewsFragment : BaseActivity(), ItemClickListener {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 isLoading = true
                 if (response.isSuccessful) {
-
+                    centralProgressBar.visibility =View.GONE
+                    bottomProgressBar.visibility=View.GONE
                     response.body()?.let {
                         list.addAll(it.articles)
 
@@ -179,6 +189,7 @@ class NewsFragment : BaseActivity(), ItemClickListener {
             }
 
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                centralProgressBar.visibility=View.GONE
                 showToastLong(activity, "error")
                 isLoading = true
                 Log.d("moshi", "error")
@@ -209,7 +220,7 @@ class NewsFragment : BaseActivity(), ItemClickListener {
 
 
     private fun setRecommendList() {
-        launch {
+        /*launch {
             val articleEntityList = mutableListOf<ArticleEntity>()
             for (item in list) {
                 articleEntityList.add(item.toArticleEntity())
@@ -221,7 +232,7 @@ class NewsFragment : BaseActivity(), ItemClickListener {
                 Log.d("articleEntity", articleEntity.toString())
 
             }
-        }
+        }*/
         binding?.rVSecondVertical?.adapter?.notifyDataSetChanged()
     }
 

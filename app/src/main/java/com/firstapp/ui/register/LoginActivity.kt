@@ -8,9 +8,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.firstapp.base.BaseActivity
 import com.firstapp.databinding.ActivityLoginBinding
-import com.firstapp.db.AppDataBase
 import com.firstapp.network.model.User
 import com.firstapp.ui.home.DashboardActivity
 import com.firstapp.util.ExtrasConstants
@@ -27,14 +25,15 @@ class LoginActivity : AppCompatActivity(){
     private var file = "MyInternalData"
     private lateinit var data: String
     var binding: ActivityLoginBinding? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding?.root
         setContentView(view)
+
         Log.e("lifecycle", "onCreate")
         binding?.tvdonto?.setOnClickListener {
+
             startActivity(
                 Intent(
                     this@LoginActivity,
@@ -55,12 +54,14 @@ class LoginActivity : AppCompatActivity(){
         binding?.loginbtn?.setOnClickListener {
             if (binding?.edemail?.text.toString() == sessionManagement.getUserEmail() && binding?.edpassword?.text.toString() == sessionManagement.getPassword()
             ) { /// hitLoginApi()
+
                 val user =
                     User(binding?.edemail?.text.toString(), binding?.edpassword?.text.toString())
                 startActivity(
                     Intent(this@LoginActivity, DashboardActivity::class.java).putExtra(
                         ExtrasConstants.Users.name, user
                     )
+
                 )
                 try {
                     val fin: FileInputStream = openFileInput(file)

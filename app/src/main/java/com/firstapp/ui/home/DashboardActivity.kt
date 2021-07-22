@@ -6,18 +6,20 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.firstapp.R
 import com.firstapp.network.model.User
 import com.firstapp.ui.home.bookmarked.BookMarkFragment
 import com.firstapp.ui.home.dashboard.HomeFragment
+import com.firstapp.ui.home.image.ImagesFragment
 import com.firstapp.ui.home.news.NewsFragment
 import com.firstapp.util.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity(),FragmentClickListener {
 
     private var bottomNavigationView: BottomNavigationView? = null
     private lateinit var sessionManagement: SessionManagement
@@ -40,7 +42,7 @@ class DashboardActivity : AppCompatActivity() {
         homeFragment.arguments = bundle
         bottomNavigationView?.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.iDashbord -> {
+                R.id.iDash -> {
                     setCurrentFragment(HomeFragment())
                 }
                 R.id.iAdd -> {
@@ -50,6 +52,10 @@ class DashboardActivity : AppCompatActivity() {
                 R.id.iPerson -> {
                     setCurrentFragment(BookMarkFragment())
                 }
+                R.id.iImage -> {
+                    setCurrentFragment(ImagesFragment())
+                }
+
                 /*  R.id.iLogout->{
                      sessionManagement.clearSession()
                   }*/
@@ -64,9 +70,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setCurrentFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.flMain, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        transaction.replace(R.id.flMain, fragment).addToBackStack(null).commit()
     }
 
     protected fun registerNetwork() {
@@ -97,6 +101,12 @@ class DashboardActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unRegisterNetwork()
+    }
+
+
+
+    override fun onFragmentTransaction(fragment: Fragment) {
+        this.supportFragmentManager.beginTransaction().replace(R.id.flMain, fragment).addToBackStack(null).commit()
     }
 
 }

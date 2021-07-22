@@ -1,22 +1,22 @@
 package com.firstapp.ui.home.bookmarked
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.firstapp.base.BaseActivity
+import com.firstapp.base.BaseFragment
 import com.firstapp.databinding.FragmnetBookmarkedBinding
 import com.firstapp.db.AppDataBase
 import com.firstapp.network.model.Article
 import com.firstapp.util.ItemClickListener
 import com.firstapp.util.toArticle
-import com.firstapp.util.toArticleEntity
 import kotlinx.coroutines.launch
 
 
-class BookMarkFragment : BaseActivity(), ItemClickListener {
+class BookMarkFragment : BaseFragment(), ItemClickListener {
     private var binding: FragmnetBookmarkedBinding? = null
-    lateinit var articleList: List<Article>
+     var articleList: ArrayList<Article> = ArrayList<Article>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,23 +38,35 @@ class BookMarkFragment : BaseActivity(), ItemClickListener {
     }
 
     private fun setUpBookmarksRecyclerView() {
-        binding?.rVSecondVertical?.apply {
-            this.adapter = BookMarkAdapter(articleList, this@BookMarkFragment)
-        }
+
     }
 
     private fun getBookMarks() {
-        launch {
+       /* launch {
             context?.let {
                 articleList = AppDataBase.invoke(it).userDetailsDao().getArticleEntity().map {
                     it.toArticle()
                 }.toList()
             }
+        }*/
+        launch {
+            context?.let {
+                val articleEntity = AppDataBase.invoke(it).userDetailsDao().getArticleEntity()
+               //  articleList = ArrayList<Article>()
+                Log.d("articleEntity", articleEntity.toString())
+                articleList.addAll(articleEntity.map {
+                    it.toArticle()
+                })
+
+            }
+        }
+        binding?.rVSecondVertical?.apply {
+            this.adapter = BookMarkAdapter(articleList, this@BookMarkFragment)
         }
     }
 
     override fun onViewClicked(view: View, position: Int) {
-        launch {
+        /*launch {
             context?.let {
                 val item = articleList[position]
                 (articleList as MutableList).remove(item)
@@ -62,7 +74,7 @@ class BookMarkFragment : BaseActivity(), ItemClickListener {
                 binding?.rVSecondVertical?.adapter?.notifyDataSetChanged()
 
             }
-        }
+        }*/
     }
 
     override fun OnSaveClicked(view: View, article: Article) {

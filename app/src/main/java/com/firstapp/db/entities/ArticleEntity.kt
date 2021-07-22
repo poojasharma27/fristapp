@@ -2,10 +2,8 @@ package com.firstapp.db.entities
 
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.firstapp.network.model.Article
-import com.firstapp.network.model.Source
+
 
 @Entity
 data class ArticleEntity(

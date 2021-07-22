@@ -10,7 +10,7 @@ import com.firstapp.databinding.ItemRecommendedBinding
 import com.firstapp.network.model.Article
 import com.firstapp.util.ItemClickListener
 
-class RecommendedAdapter(val list: List<Article>, val context: Context?, private val clickListener: ItemClickListener?) :
+class RecommendedAdapter(val list: List<Article>, private val clickListener: ItemClickListener?) :
     RecyclerView.Adapter<RecommendedAdapter.ViewHolder>(){
 
 

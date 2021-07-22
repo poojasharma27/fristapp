@@ -8,15 +8,12 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.firstapp.base.BaseActivity
 import com.firstapp.databinding.ActivitySignupBinding
-import com.firstapp.db.AppDataBase
 import com.firstapp.network.model.User
 import com.firstapp.db.entities.UserEntity
 import com.firstapp.ui.home.DashboardActivity
 import com.firstapp.util.ExtrasConstants
 import com.firstapp.util.SessionManagement
-import kotlinx.coroutines.launch
 
 class SignUpActivity : AppCompatActivity() {
    private lateinit var userDetails: UserEntity

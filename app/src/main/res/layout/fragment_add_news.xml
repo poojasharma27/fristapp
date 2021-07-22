@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1e1d24">
+    <include
+        layout="@layout/layout_progress_bar"/>
 <RelativeLayout
     android:id="@+id/rVMain"
     android:layout_width="match_parent"
@@ -61,6 +63,15 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/margin16"
         app:layout_constraintTop_toBottomOf="@+id/tvrecommended" />
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:id="@+id/bottomPB"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/margin24"
+      app:layout_constraintTop_toBottomOf="@id/rVSecondVertical"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
