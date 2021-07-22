@@ -33,7 +33,7 @@ class ImagesFragment : BaseFragment() {
     private var selectImageList = arrayOf("Take Photo", " Choose From Gallery", "Cancel")
     private var isLoading: Boolean = false
     private    var setPicture: ActivityResultLauncher<Intent>?=null
-    lateinit var imagesEntity :ImagesEntity
+     var imagesEntity :ImagesEntity?=null
     var userChooseTask ="Choose From Gallery"
 
     override fun onCreateView(
@@ -77,7 +77,7 @@ class ImagesFragment : BaseFragment() {
                     }
 
                 }
-                updateDb(imagesEntity)
+                imagesEntity?.let { it1 -> updateDb(it1) }
                 Log.d("takePhoto", imagesEntity.toString())
             }
                getFromDb()
@@ -170,13 +170,11 @@ class ImagesFragment : BaseFragment() {
             activity?.let {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(it,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    openCamera()
                     // Show an explanation to the user *asynchronously* -- don't block
                     // this thread waiting for the user's response! After the user
                     // sees the explanation, try again to request the permission.
                 } else ActivityCompat.requestPermissions(it,
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1001)
-                showToastLong(it,"hello")
                 // No explanation needed; request the permission
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
@@ -192,6 +190,7 @@ class ImagesFragment : BaseFragment() {
     }
 
 }
+
 
 }
 
