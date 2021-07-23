@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.firstapp.R
 import com.firstapp.base.BaseFragment
@@ -30,11 +29,12 @@ import java.io.ByteArrayOutputStream
 
 class ImagesFragment : BaseFragment() {
     var binding: FragmentImagesBinding? = null
+    val list = ArrayList<ImagesEntity>()
+   private val imageSListAdapter =ImageSListAdapter(list)
     private var selectImageList = arrayOf("Take Photo", " Choose From Gallery", "Cancel")
     private var isLoading: Boolean = false
     private var setPicture: ActivityResultLauncher<Intent>? = null
-    var imagesEntity: ImagesEntity? = null
-    var userChooseTask = "Choose From Gallery"
+  private  var imagesEntity: ImagesEntity? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,26 +58,28 @@ class ImagesFragment : BaseFragment() {
                 ActivityResultContracts.StartActivityForResult()
             ) {
                 if (it.resultCode == Activity.RESULT_OK) {
-                    val datapath: Intent? = it.data
-                    var isCamera: Boolean = isLoading
+                    val dataPath: Intent? = it.data
+                    val isCamera: Boolean = isLoading
                     if (isCamera) {
-                        val extras: Bundle? = datapath?.extras
+                        val extras: Bundle? = dataPath?.extras
                         val imageBitmap = extras?.get("data") as Bitmap?
                         context.let {
-                            val uri = getImageUri(it, imageBitmap!!, "imges")
+                            val uri = getImageUri(it, imageBitmap!!, "images")
                             imagesEntity = ImagesEntity(
                                 images = uri.toString()
                             )
                         }
 
                     } else {
-                        val fileuri: Uri? = datapath?.data
+                        val fileUri: Uri? = dataPath?.data
 
                         imagesEntity = ImagesEntity(
-                            images = fileuri.toString()
+                            images = fileUri.toString()
                         )
                     }
-
+                    imagesEntity?.let { it1 -> list.add(it1) }
+                    imageSListAdapter.notifyItemInserted(list.size-1)
+                    binding?.rvImage?.scrollToPosition(list.size-1)
                 }
                 imagesEntity?.let { it1 -> updateDb(it1) }
                 Log.d("takePhoto", imagesEntity.toString())
@@ -90,12 +92,12 @@ class ImagesFragment : BaseFragment() {
     private fun getFromDb() {
         launch {
             context?.let {
-                val ImagesEntityList = AppDataBase.invoke(it).userDetailsDao().getImagesEntity()
-                val list = ArrayList<ImagesEntity>()
-                list.addAll(ImagesEntityList)
+                val imagesEntityList = AppDataBase.invoke(it).userDetailsDao().getImagesEntity()
+                list.addAll(imagesEntityList)
                 binding?.rvImage?.apply {
-                    this.adapter = ImageSListAdapter(list)
+                    this.adapter = imageSListAdapter
                 }
+
             }
 
 
@@ -151,7 +153,7 @@ class ImagesFragment : BaseFragment() {
     }
 
 
-    fun getImageUri(inContext: Context?, inImage: Bitmap?, imageName: String?): Uri? {
+    private fun getImageUri(inContext: Context?, inImage: Bitmap?, images: String?): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         try {
@@ -160,17 +162,17 @@ class ImagesFragment : BaseFragment() {
                 MediaStore.Images.Media.insertImage(
                     inContext?.contentResolver,
                     inImage,
-                    imageName,
+                    images,
                     null
                 )
             )
         } catch (e: Exception) {
-            Log.e("path", e.localizedMessage)
+            Log.e("path", e.toString())
             println("message" + e.message)
         }
         return null
     }
-    val requestPermissionLauncher =
+     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -188,7 +190,7 @@ class ImagesFragment : BaseFragment() {
             }
         }
 
-    fun permission() {
+  private  fun permission() {
 
         context?.let {
 

@@ -34,7 +34,7 @@ interface UserDetailsDao {
     @Insert
     suspend fun addImages(imagesEntity: ImagesEntity)
 
-    @Query("SELECT * FROM ImagesEntity ORDER BY imageId DESC ")
+    @Query("SELECT * FROM ImagesEntity ORDER BY imageId ASC ")
     suspend fun  getImagesEntity(): List<ImagesEntity>
 
 }
