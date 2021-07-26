@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.DashboardActivity">
 
+
     <FrameLayout
         android:id="@+id/flMain"
         android:layout_width="match_parent"
@@ -15,7 +16,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bNView"
         />
-
+    <include
+        layout="@layout/layout_progress_bar"
+        android:visibility="gone"
+        />
      <com.google.android.material.bottomnavigation.BottomNavigationView
          android:id="@+id/bNView"
          android:layout_width="match_parent"

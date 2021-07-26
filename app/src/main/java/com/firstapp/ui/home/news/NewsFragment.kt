@@ -20,6 +20,7 @@ import com.firstapp.network.ApiServiceIn
 import com.firstapp.network.ApiServices
 import com.firstapp.network.model.Article
 import com.firstapp.network.model.NewsResponse
+import com.firstapp.ui.home.DashboardActivity
 import com.firstapp.util.*
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -36,6 +37,7 @@ class NewsFragment : BaseFragment(), ItemClickListener {
     lateinit var centralProgressBar: ProgressBar
     lateinit var bottomProgressBar: ProgressBar
     lateinit var topProgressBar: ProgressBar
+    lateinit var progressBar: ProgressBar
     var pageCount = 1
    lateinit var fragmentClickListener: FragmentClickListener
     override fun onCreateView(
@@ -52,11 +54,15 @@ class NewsFragment : BaseFragment(), ItemClickListener {
         setupRecyclerViews()
         //making the news api cal
         fragmentClickListener=activity as FragmentClickListener
-        centralProgressBar = view.findViewById(R.id.centralPB)
+      //  centralProgressBar = view.findViewById(R.id.centralPB)
         bottomProgressBar = view.findViewById(R.id.bottomPB)
-        topProgressBar = view.findViewById(R.id.topProgressBar)
+      //  topProgressBar = view.findViewById(R.id.topProgressBar)
 
         // Add ProgressBar to our layout
+       // progressBarDialog(context)
+        /*progressBar = ProgressBar(context, null, android.R.attr.progressBarStyleSmall);
+        progressBar.isIndeterminate=true*/
+        (activity as DashboardActivity).showProgressBar()
         getNews()
     }
 
@@ -176,9 +182,11 @@ class NewsFragment : BaseFragment(), ItemClickListener {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 isLoading = true
                 if (response.isSuccessful) {
-                    centralProgressBar.visibility =View.GONE
+                   // progressBar.visibility = View.GONE
+                    (activity as DashboardActivity).hideProgressBar()
+                    //  centralProgressBar.visibility =View.GONE
                     bottomProgressBar.visibility=View.GONE
-                    topProgressBar.visibility=View.GONE
+                 //   topProgressBar.visibility=View.GONE
 
                     response.body()?.let {
                         list.addAll(it.articles)
@@ -193,8 +201,10 @@ class NewsFragment : BaseFragment(), ItemClickListener {
             }
 
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-                centralProgressBar.visibility=View.GONE
-                topProgressBar.visibility=View.GONE
+              //  centralProgressBar.visibility=View.GONE
+              //  topProgressBar.visibility=View.GONE
+            //    progressBar.visibility = View.GONE
+                (activity as DashboardActivity).hideProgressBar()
                 showToastLong(activity, "error")
                 isLoading = true
                 Log.d("moshi", "error")

@@ -5,9 +5,12 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.firstapp.R
+import com.firstapp.databinding.ActivityDashboardBinding
 import com.firstapp.network.model.User
 import com.firstapp.ui.home.bookmarked.BookMarkFragment
 import com.firstapp.ui.home.camera.CameraFragment
@@ -23,12 +26,17 @@ class DashboardActivity : AppCompatActivity(),FragmentClickListener {
     private var bottomNavigationView: BottomNavigationView? = null
     private lateinit var sessionManagement: SessionManagement
     private lateinit var broadCastReceiver: ConnectivityReceiver
+    var binding:ActivityDashboardBinding?=null
+    lateinit var  progressBar:RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        binding= ActivityDashboardBinding.inflate(layoutInflater)
+        val view = binding?.root
+        setContentView(view)
         sessionManagement = SessionManagement(this)
         bottomNavigationView = findViewById(R.id.bNView)
+        progressBar = findViewById(R.id.progressBarLayout)
         val user: User = intent.getParcelableExtra<User>(ExtrasConstants.Users.name) as User
 
         Log.d("frag", user.email + user.password)
@@ -66,9 +74,15 @@ class DashboardActivity : AppCompatActivity(),FragmentClickListener {
         }
         registerNetwork()
 
-
     }
 
+    fun showProgressBar(){
+        progressBar.visibility= View.VISIBLE
+    }
+
+    fun hideProgressBar(){
+        progressBar.visibility = View.GONE
+    }
 
     private fun setCurrentFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()

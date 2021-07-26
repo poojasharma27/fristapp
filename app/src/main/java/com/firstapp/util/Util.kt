@@ -5,14 +5,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.view.isGone
-import com.firstapp.R
-
 
 fun showToastLong(context: Context?, msg: String) {
     context?.let {
@@ -30,7 +24,7 @@ fun showToastShort(context: Context, msg: String) {
 fun isInternetAvailable(context: Context?): Boolean {
     if(Build.VERSION.SDK_INT>Build.VERSION_CODES.Q){
         val connectivityManager =context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        return connectivityManager!!.activeNetworkInfo != null && connectivityManager!!.activeNetworkInfo!!.isConnected
+        return connectivityManager!!.activeNetworkInfo != null && connectivityManager?.activeNetworkInfo!!.isConnected
     }else{
         val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = connectivityManager.activeNetwork
@@ -47,6 +41,7 @@ fun isInternetAvailable(context: Context?): Boolean {
 
     return false
 }
+
 
 
 

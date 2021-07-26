@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1e1d24">
-    <include
-        layout="@layout/layout_progress_bar"/>
+<!--    <include
+        layout="@layout/layout_progress_bar"/>-->
 <RelativeLayout
     android:id="@+id/rVMain"
     android:layout_width="match_parent"
