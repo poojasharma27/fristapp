@@ -32,7 +32,7 @@ class ImagesFragment : BaseFragment() {
     val list = ArrayList<ImagesEntity>()
    private val imageSListAdapter =ImageSListAdapter(list)
     private var selectImageList = arrayOf("Take Photo", " Choose From Gallery", "Cancel")
-    private var isLoading: Boolean = false
+    private var cameraVisibile: Boolean = false
     private var setPicture: ActivityResultLauncher<Intent>? = null
   private  var imagesEntity: ImagesEntity? = null
 
@@ -59,7 +59,7 @@ class ImagesFragment : BaseFragment() {
             ) {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val dataPath: Intent? = it.data
-                    val isCamera: Boolean = isLoading
+                    val isCamera: Boolean = cameraVisibile
                     if (isCamera) {
                         val extras: Bundle? = dataPath?.extras
                         val imageBitmap = extras?.get("data") as Bitmap?
@@ -77,15 +77,20 @@ class ImagesFragment : BaseFragment() {
                             images = fileUri.toString()
                         )
                     }
-                    imagesEntity?.let { it1 -> list.add(it1) }
-                    imageSListAdapter.notifyItemInserted(list.size-1)
-                    binding?.rvImage?.scrollToPosition(list.size-1)
+                    updateRecyclerView()
+
                 }
                 imagesEntity?.let { it1 -> updateDb(it1) }
                 Log.d("takePhoto", imagesEntity.toString())
             }
 
         getFromDb()
+    }
+
+    private fun updateRecyclerView() {
+        imagesEntity?.let { it1 -> list.add(it1) }
+        imageSListAdapter.notifyItemInserted(list.size-1)
+        binding?.rvImage?.scrollToPosition(list.size-1)
     }
 
 
@@ -126,9 +131,12 @@ class ImagesFragment : BaseFragment() {
                 selectImageList
             ) { dialog, which ->
                 when (which) {
-                    0 ->
+                    0 -> {
+                    //cameraVisibile = true
                         permission()
+                    }
                     1 -> {
+                       // cameraVisibile = false
                         openGallery()
                     }
                     3 ->
@@ -140,14 +148,14 @@ class ImagesFragment : BaseFragment() {
     }
 
     private fun openGallery() {
-        isLoading = false
+        cameraVisibile = false
         val galleryIntent = Intent(Intent.ACTION_GET_CONTENT)
         galleryIntent.setType("image/*")
         setPicture?.launch(galleryIntent)
     }
 
     private fun openCamera() {
-        isLoading = true
+        cameraVisibile = true
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         setPicture?.launch(cameraIntent)
     }

@@ -35,6 +35,7 @@ class NewsFragment : BaseFragment(), ItemClickListener {
     var totalItem: Int? = null
     lateinit var centralProgressBar: ProgressBar
     lateinit var bottomProgressBar: ProgressBar
+    lateinit var topProgressBar: ProgressBar
     var pageCount = 1
    lateinit var fragmentClickListener: FragmentClickListener
     override fun onCreateView(
@@ -53,6 +54,7 @@ class NewsFragment : BaseFragment(), ItemClickListener {
         fragmentClickListener=activity as FragmentClickListener
         centralProgressBar = view.findViewById(R.id.centralPB)
         bottomProgressBar = view.findViewById(R.id.bottomPB)
+        topProgressBar = view.findViewById(R.id.topProgressBar)
 
         // Add ProgressBar to our layout
         getNews()
@@ -176,12 +178,14 @@ class NewsFragment : BaseFragment(), ItemClickListener {
                 if (response.isSuccessful) {
                     centralProgressBar.visibility =View.GONE
                     bottomProgressBar.visibility=View.GONE
+                    topProgressBar.visibility=View.GONE
+
                     response.body()?.let {
                         list.addAll(it.articles)
 
                         updateNewsRecyclerVIew()
                         updateDb()
-                        setRecommendList()
+                         updateRecommendRecyclerView()
                     }
                     Log.d("moshi", "success")
 
@@ -190,6 +194,7 @@ class NewsFragment : BaseFragment(), ItemClickListener {
 
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
                 centralProgressBar.visibility=View.GONE
+                topProgressBar.visibility=View.GONE
                 showToastLong(activity, "error")
                 isLoading = true
                 Log.d("moshi", "error")
@@ -219,20 +224,7 @@ class NewsFragment : BaseFragment(), ItemClickListener {
     }
 
 
-    private fun setRecommendList() {
-        /*launch {
-            val articleEntityList = mutableListOf<ArticleEntity>()
-            for (item in list) {
-                articleEntityList.add(item.toArticleEntity())
-            }
-            context?.let {
-                val articleEntity = AppDataBase.invoke(it).userDetailsDao()
-                    .addArticle(articleEntityList)
-
-                Log.d("articleEntity", articleEntity.toString())
-
-            }
-        }*/
+    private fun  updateRecommendRecyclerView() {
         binding?.rVSecondVertical?.adapter?.notifyDataSetChanged()
     }
 

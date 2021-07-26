@@ -1,17 +1,16 @@
 package com.firstapp.ui.home
 
 
-import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.firstapp.R
 import com.firstapp.network.model.User
 import com.firstapp.ui.home.bookmarked.BookMarkFragment
+import com.firstapp.ui.home.camera.CameraFragment
 import com.firstapp.ui.home.dashboard.HomeFragment
 import com.firstapp.ui.home.image.ImagesFragment
 import com.firstapp.ui.home.news.NewsFragment
@@ -54,6 +53,9 @@ class DashboardActivity : AppCompatActivity(),FragmentClickListener {
                 }
                 R.id.iImage -> {
                     setCurrentFragment(ImagesFragment())
+                }
+                R.id.camreaItem -> {
+                    setCurrentFragment(CameraFragment())
                 }
 
                 /*  R.id.iLogout->{

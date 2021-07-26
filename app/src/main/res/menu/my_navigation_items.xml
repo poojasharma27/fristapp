@@ -17,6 +17,10 @@
         android:id="@+id/iImage"
         android:icon="@drawable/ic_baseline_image_24"
         android:title="@string/images" />
+    <item
+        android:id="@+id/camreaItem"
+        android:icon="@drawable/ic_baseline_camera_alt_24"
+        android:title="@string/camera" />
    <!-- <item
         android:id="@+id/iLogout"
         android:icon="@drawable/ic_baseline_logout_24"

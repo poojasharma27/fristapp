@@ -19,7 +19,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 
-class LoginActivity : AppCompatActivity(){
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var sessionManagement: SessionManagement
     private var file = "MyInternalData"
@@ -30,16 +30,9 @@ class LoginActivity : AppCompatActivity(){
         binding = ActivityLoginBinding.inflate(layoutInflater)
         val view = binding?.root
         setContentView(view)
-
         Log.e("lifecycle", "onCreate")
         binding?.tvdonto?.setOnClickListener {
-
-            startActivity(
-                Intent(
-                    this@LoginActivity,
-                    SignUpActivity::class.java
-                )
-            )
+            clickEvent()
         }
         /*launch {
             this.let {
@@ -106,6 +99,15 @@ class LoginActivity : AppCompatActivity(){
 
     }
 
+    private fun clickEvent() {
+        startActivity(
+            Intent(
+                this@LoginActivity,
+                SignUpActivity::class.java
+            )
+        )
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -167,5 +169,7 @@ class LoginActivity : AppCompatActivity(){
          val gt = GetTasks()
          gt.execute()
      }*/
+
+  
 }
 

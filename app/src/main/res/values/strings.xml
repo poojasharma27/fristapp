@@ -45,4 +45,6 @@
     <string name="_91">+91</string>
     <string name="images">Images</string>
     <string name="addphoto">Add Photo !</string>
+    <string name="camera">Camera</string>
+    <string name="capture_photo">Capture Photo</string>
 </resources>
